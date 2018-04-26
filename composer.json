@@ -1,0 +1,34 @@
+{
+  "name": "inerciacreativa/wp-rewrite-control",
+  "type": "wordpress-plugin",
+  "license": "MIT",
+  "description": "Gestor de .htaccess y opciones de WP_Rewrite",
+  "homepage": "https://github.com/inerciacreativa/wp-rewrite-control",
+  "keywords": [
+    "wordpress",
+    "plugin",
+    "wordpress-plugin"
+  ],
+  "authors": [
+    {
+      "name": "José Cuesta",
+      "email": "jose.cuesta@inerciacreativa.com",
+      "homepage": "https://inerciacreativa.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=7.1.3"
+  },
+  "config": {
+    "vendor-dir": "vendor"
+  },
+  "extra": {
+    "installer-name": "ic-rewrite-control"
+  },
+  "autoload": {
+    "psr-4": {
+      "ic\\Plugin\\RewriteControl\\": "source/"
+    }
+  }
+}
