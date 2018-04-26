@@ -2,7 +2,7 @@
 /**
  * Plugin Name: ic Rewrite Control
  * Plugin URI:  https://github.com/inerciacreativa/wp-rewrite-control
- * Version:     1.0.0
+ * Version:     1.0.3
  * Description: Gestor de .htaccess y opciones de WP_Rewrite.
  * Author:      Jose Cuesta
  * Author URI:  https://inerciacreativa.com/
