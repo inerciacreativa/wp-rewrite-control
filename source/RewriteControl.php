@@ -50,9 +50,9 @@ class RewriteControl extends Plugin
 	/**
 	 * @inheritdoc
 	 */
-	protected function onCreation()
+	protected function configure(): void
 	{
-		parent::onCreation();
+		parent::configure();
 
 		$this->setOptions([
 			'apache'    => [
@@ -92,7 +92,7 @@ class RewriteControl extends Plugin
 	/**
 	 * @inheritdoc
 	 */
-	protected function onInit()
+	protected function initialize(): void
 	{
 		$this->wordpress->setup();
 	}
