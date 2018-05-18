@@ -157,7 +157,7 @@ class Backend extends PluginClass
 				            foreach ((array) Arr::get($values, 'wordpress.base') as $key => $value) {
 					            if (empty($value)) {
 						            Arr::set($values, "wordpress.base.$key", $this->getPlugin()
-						                                                          ->getBase($key));
+						                                                          ->getDefaultOption($key));
 					            }
 				            }
 

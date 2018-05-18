@@ -32,11 +32,11 @@ class WordPress
 	{
 		global $wp_rewrite;
 
-		$wp_rewrite->author_base              = $this->plugin->getBase('author');
-		$wp_rewrite->search_base              = $this->plugin->getBase('search');
-		$wp_rewrite->comments_base            = $this->plugin->getBase('comments');
-		$wp_rewrite->pagination_base          = $this->plugin->getBase('pagination');
-		$wp_rewrite->comments_pagination_base = $this->plugin->getBase('comments_pagination');
+		$wp_rewrite->author_base              = $this->plugin->getBaseOption('author');
+		$wp_rewrite->search_base              = $this->plugin->getBaseOption('search');
+		$wp_rewrite->comments_base            = $this->plugin->getBaseOption('comments');
+		$wp_rewrite->pagination_base          = $this->plugin->getBaseOption('pagination');
+		$wp_rewrite->comments_pagination_base = $this->plugin->getBaseOption('comments_pagination');
 	}
 
 	/**
@@ -46,7 +46,7 @@ class WordPress
 	 */
 	public function rules(array $rules): array
 	{
-		$pagination = $this->plugin->getBase('pagination');
+		$pagination = $this->plugin->getBaseOption('pagination');
 
 		if ($this->plugin->getOption('wordpress.archive.category')) {
 			$base  = get_option('category_base', 'category');
@@ -59,7 +59,7 @@ class WordPress
 		}
 
 		if ($this->plugin->getOption('wordpress.archive.author')) {
-			$base  = $this->plugin->getBase('author');
+			$base  = $this->plugin->getBaseOption('author');
 			$rules = array_merge($this->getArchiveRules('author_name', $base, $pagination), $rules);
 		}
 

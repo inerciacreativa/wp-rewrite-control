@@ -146,11 +146,21 @@ class RewriteControl extends Plugin
 	 *
 	 * @return string
 	 */
-	public function getBase($type): string
+	public function getBaseOption(string $type): string
 	{
 		$base = $this->getOption("wordpress.base.$type");
 
-		return empty($base) ? self::$base[$type] : $base;
+		return !$base ? $this->getDefaultOption($type) : $base;
+	}
+
+	/**
+	 * @param string $type
+	 *
+	 * @return string
+	 */
+	public function getDefaultOption(string $type): string
+	{
+		return self::$base[$type];
 	}
 
 	/**
