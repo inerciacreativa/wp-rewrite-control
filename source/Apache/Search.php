@@ -24,7 +24,7 @@ class Search extends Config
 # ----------------------------------------------------------------------
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteCond %{QUERY_STRING} \\?s=([^&]+) [NC]
+    RewriteCond %{QUERY_STRING} \\\\?s=([^&]+) [NC]
     RewriteRule ^$ /{$slug}/%1/? [NC,R,L]
 </IfModule>
 
