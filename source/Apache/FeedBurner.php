@@ -30,7 +30,7 @@ class FeedBurner extends Config
 	RewriteCond %{REMOTE_HOST} ^ping.feedburner.com [NC,OR]
 	RewriteCond %{REMOTE_HOST} ^feedburner.google.com [NC,OR]
 	RewriteCond %{REMOTE_HOST} ^feedburner.com [NC]
-    RewriteRule .* http://feeds.feedburner.com/{$slug}? [L,R=307]
+    RewriteRule .* https://feeds.feedburner.com/{$slug}? [L,R=307]
 </IfModule>
 
 EOT;
