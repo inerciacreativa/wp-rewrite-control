@@ -13,6 +13,7 @@ use ic\Plugin\RewriteControl\Apache\MIME;
 use ic\Plugin\RewriteControl\Apache\Protect;
 use ic\Plugin\RewriteControl\Apache\Root;
 use ic\Plugin\RewriteControl\Apache\Search;
+use ic\Plugin\RewriteControl\Apache\ServiceWorker;
 use ic\Plugin\RewriteControl\Apache\SSL;
 use ic\Plugin\RewriteControl\Apache\WWW;
 
@@ -28,19 +29,20 @@ class Apache
 	 * @var array
 	 */
 	protected static $config = [
-		'protect'    => Protect::class,
-		'cors'       => CORS::class,
-		'ie'         => IE::class,
-		'mime'       => MIME::class,
-		'charset'    => Charset::class,
-		'deflate'    => Deflate::class,
-		'expires'    => Expires::class,
-		'root'       => Root::class,
-		'feedburner' => FeedBurner::class,
-		'ssl'        => SSL::class,
-		'www'        => WWW::class,
-		'search'     => Search::class,
-		'base'       => Base::class,
+		'protect'       => Protect::class,
+		'cors'          => CORS::class,
+		'ie'            => IE::class,
+		'mime'          => MIME::class,
+		'charset'       => Charset::class,
+		'deflate'       => Deflate::class,
+		'expires'       => Expires::class,
+		'root'          => Root::class,
+		'feedburner'    => FeedBurner::class,
+		'serviceworker' => ServiceWorker::class,
+		'ssl'           => SSL::class,
+		'www'           => WWW::class,
+		'search'        => Search::class,
+		'base'          => Base::class,
 	];
 
 	/**
