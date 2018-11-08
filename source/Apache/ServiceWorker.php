@@ -22,6 +22,9 @@ class ServiceWorker extends Config
 <FilesMatch "$regexp">
 	<IfModule mod_headers.c>
 		Header set Service-Worker-Allowed "/"
+		Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+		Header set Pragma "no-cache"
+		Header set Expires "Wed, 11 Jan 1984 05:00:00 GMT"
 	</IfModule>
 </FilesMatch>
 
