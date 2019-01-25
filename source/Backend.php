@@ -85,6 +85,10 @@ class Backend extends PluginClass
 				                    ->checkbox('apache.cors', __('CORS headers', $this->id()), [
 					                    'label' => __('Allow cross-origin for images and web fonts when browsers request it (<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS"><code>CORS</code></a>).', $this->id()),
 				                    ])
+				                    ->text('apache.csp', __('Content Security Police', $this->id()), [
+					                    'class'       => 'regular-text code',
+					                    'description' => __('Sets the <a href="https://content-security-policy.com/">CSP directives</a>.', $this->id()),
+				                    ])
 				                    ->text('apache.serviceworker', __('Service worker', $this->id()), [
 					                    'class'       => 'regular-text code',
 					                    'description' => __('Set the scope for the service worker to the root of the site.<br>Type only the name of the script.', $this->id()),

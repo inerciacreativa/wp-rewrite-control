@@ -58,6 +58,7 @@ class RewriteControl extends Plugin
 			'apache'    => [
 				'protect'       => true,
 				'cors'          => true,
+				'csp'           => '',
 				'ie'            => true,
 				'mime'          => true,
 				'charset'       => true,

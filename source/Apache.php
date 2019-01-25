@@ -5,6 +5,7 @@ namespace ic\Plugin\RewriteControl;
 use ic\Plugin\RewriteControl\Apache\Base;
 use ic\Plugin\RewriteControl\Apache\Charset;
 use ic\Plugin\RewriteControl\Apache\CORS;
+use ic\Plugin\RewriteControl\Apache\CSP;
 use ic\Plugin\RewriteControl\Apache\Deflate;
 use ic\Plugin\RewriteControl\Apache\Expires;
 use ic\Plugin\RewriteControl\Apache\FeedBurner;
@@ -31,6 +32,7 @@ class Apache
 	protected static $config = [
 		'protect'       => Protect::class,
 		'cors'          => CORS::class,
+		'csp'           => CSP::class,
 		'ie'            => IE::class,
 		'mime'          => MIME::class,
 		'charset'       => Charset::class,
