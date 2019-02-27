@@ -53,7 +53,7 @@ EOT;
 	 */
 	public function getDirectives(): string
 	{
-		return $this->getPlugin()->usingWWW() ? $this->add() : $this->remove();
+		return $this->getPlugin()->hasSubdomain() ? $this->add() : $this->remove();
 	}
 
 }

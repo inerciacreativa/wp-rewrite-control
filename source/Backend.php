@@ -35,7 +35,7 @@ class Backend extends PluginClass
 	 */
 	protected function generateApacheRules(): string
 	{
-		return $this->getPlugin()->getApache()->rules();
+		return $this->getPlugin()->getApache()->getDirectives();
 	}
 
 	/**
@@ -45,7 +45,7 @@ class Backend extends PluginClass
 	 */
 	protected function generateWordPressRules(array $rules): array
 	{
-		return $this->getPlugin()->getWordPress()->rules($rules);
+		return $this->getPlugin()->getWordPress()->getRules($rules);
 	}
 
 	/**
@@ -85,32 +85,22 @@ class Backend extends PluginClass
 				                    ->checkbox('apache.cors', __('CORS headers', $this->id()), [
 					                    'label' => __('Allow cross-origin for images and web fonts when browsers request it (<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS"><code>CORS</code></a>).', $this->id()),
 				                    ])
-				                    ->text('apache.csp', __('Content Security Police', $this->id()), [
-					                    'class'       => 'regular-text code',
-					                    'description' => __('Sets the <a href="https://content-security-policy.com/">CSP directives</a>.', $this->id()),
-				                    ])
 				                    ->text('apache.serviceworker', __('Service worker', $this->id()), [
 					                    'class'       => 'regular-text code',
 					                    'description' => __('Set the scope for the service worker to the root of the site.<br>Type only the name of the script.', $this->id()),
 				                    ]);
 			            });
 
-			        if ($this->getPlugin()->usingSSL()) {
-				        $tab->addSection('ssl', function (Section $section) {
-					        $section->title('HTTPS Options')
-					                ->checkbox('apache.ssl', __('Force SSL', $this->id()), [
-						                'label' => __('Redirect to the secure <a href="https://en.wikipedia.org/wiki/HTTPS"><code>HTTPS</code></a> version and enforce <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security"><code>Strict Transport Security</code></a> in the browser.', $this->id()),
-					                ])
-					                ->checkbox('apache.ssl_all', __('Force SSL on all subdomains', $this->id()), [
-						                'label' => __('Force <a href="https://en.wikipedia.org/wiki/HTTPS"><code>HTTPS</code></a> on all subdomains (be careful).', $this->id()),
-					                ]);
-				        });
-			        }
+			        $tab->addSection('rewrite', function (Section $section) {
+				        $section->title('Rewrite');
 
-			        $tab->addSection('redirect', function (Section $section) {
-				        $section->title('Redirection Options');
+				        if ($this->getPlugin()->hasHttps()) {
+					        $section->checkbox('apache.ssl', __('Force SSL', $this->id()), [
+						        'label' => __('Always redirect to the secure <a href="https://en.wikipedia.org/wiki/HTTPS"><code>HTTPS</code></a> version.', $this->id()),
+					        ]);
+				        }
 
-				        if ($this->getPlugin()->usingWWW()) {
+				        if ($this->getPlugin()->hasSubdomain()) {
 					        $section->checkbox('apache.www', __('Force www', $this->id()), [
 						        'label' => __('Add the <code>www</code> subdomain to the URLs.', $this->id()),
 					        ]);
@@ -124,17 +114,44 @@ class Backend extends PluginClass
 					        'label'       => __('Rewrite search queries <code>/?s=query</code> to permalinks <code>/search/query</code>.', $this->id()),
 					        'description' => __('The search slug can be changed in the WordPress options of the plugin.', $this->id()),
 				        ]);
+
 				        $section->text('apache.feedburner', __('FeedBurner rewrite', $this->id()), [
 					        'class'       => 'regular-text code',
 					        'description' => __('Rewrite feed queries to FeedBurner with a <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/307"><code>HTTP 307</code></a> temporary redirection.<br>Type only the slug of the URL.', $this->id()),
 				        ]);
-			        })->onFinalization(function () {
-				        $this->getPlugin()->getApache()->flush();
+			        });
+
+			        $tab->addSection('security', function (Section $section) {
+				        $section->title('Security');
+
+				        $section->text('apache.csp', __('Content Security Police', $this->id()), [
+					        'class'       => 'regular-text code',
+					        'description' => __('Sets the <a href="https://content-security-policy.com/">CSP directives</a>.', $this->id()),
+				        ]);
+
+				        if ($this->getPlugin()->hasHttps()) {
+					        $section->checkbox('apache.hsts.enable', __('HSTS', $this->id()), [
+						        'label' => __('Enforce <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security"><code>Strict Transport Security</code></a> in the browser. Be aware that this, once published, is not revokable.', $this->id()),
+					        ]);
+
+					        $section->checkbox('apache.hsts.subdomains', __('HSTS on subdomains', $this->id()), [
+						        'label' => __('Enable <a href="https://en.wikipedia.org/wiki/HTTPS"><code>HSTS</code></a> on all subdomains.', $this->id()),
+					        ]);
+
+					        $section->checkbox('apache.hsts.preload', __('HSTS reloading', $this->id()), [
+						        'label' => __('Enable if you want to submit your site to the <a href="https://hstspreload.org/">HSTS preload service</a> maintained by Google (you also must include all subdomains).', $this->id()),
+					        ]);
+				        }
+
+			        });
+
+			        $tab->onFinalization(function () {
+				        $this->getPlugin()->getApache()->saveDirectives();
 			        });
 		        })
 		        ->addTab('wordpress', function (Tab $tab) {
 			        if (!\defined('DOING_AJAX')) {
-				        $this->getPlugin()->getWordPress()->flush();
+				        $this->getPlugin()->getWordPress()->saveRules();
 			        }
 			        $tab->setTitle(__('WordPress Config', $this->id()))
 			            ->addSection('base', function (Section $section) {
@@ -170,7 +187,7 @@ class Backend extends PluginClass
 			            ->onValidation(function (array $values) {
 				            foreach ((array) Arr::get($values, 'wordpress.base') as $key => $value) {
 					            if (empty($value)) {
-						            Arr::set($values, "wordpress.base.$key", $this->getPlugin()
+						            Arr::set($values, "wordpress.base.$key", $this->getPlugin()->getWordPress()
 						                                                          ->getDefaultOption($key));
 					            }
 				            }

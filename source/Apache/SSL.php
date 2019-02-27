@@ -15,7 +15,7 @@ class SSL extends ApacheConfig
 	 */
 	public function isEnabled(): bool
 	{
-		return parent::isEnabled() && $this->getPlugin()->usingSSL();
+		return parent::isEnabled() && $this->getPlugin()->hasHttps();
 	}
 
 	/**

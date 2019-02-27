@@ -9,6 +9,7 @@ use ic\Plugin\RewriteControl\Apache\CSP;
 use ic\Plugin\RewriteControl\Apache\Deflate;
 use ic\Plugin\RewriteControl\Apache\Expires;
 use ic\Plugin\RewriteControl\Apache\FeedBurner;
+use ic\Plugin\RewriteControl\Apache\HSTS;
 use ic\Plugin\RewriteControl\Apache\IE;
 use ic\Plugin\RewriteControl\Apache\MIME;
 use ic\Plugin\RewriteControl\Apache\Protect;
@@ -27,23 +28,58 @@ class Apache
 {
 
 	/**
+	 * @var RewriteControl
+	 */
+	private $plugin;
+
+	/**
 	 * @var array
 	 */
-	private static $config = [
+	private static $configOptions = [
+		'protect'       => true,
+		'cors'          => true,
+		'ie'            => true,
+		'mime'          => true,
+		'charset'       => true,
+		'deflate'       => true,
+		'expires'       => true,
+		'serviceworker' => '',
+
+		'ssl'           => true,
+		'www'           => true,
+		'search'        => true,
+		'feedburner'    => '',
+
+		'csp'           => '',
+		'hsts'          => [
+			'enable'     => false,
+			'subdomains' => false,
+			'preload'    => false,
+		],
+	];
+
+	/**
+	 * @var array
+	 */
+	private static $configClasses = [
 		'protect'       => Protect::class,
 		'cors'          => CORS::class,
-		'csp'           => CSP::class,
 		'ie'            => IE::class,
 		'mime'          => MIME::class,
 		'charset'       => Charset::class,
 		'deflate'       => Deflate::class,
 		'expires'       => Expires::class,
 		'root'          => Root::class,
-		'feedburner'    => FeedBurner::class,
 		'serviceworker' => ServiceWorker::class,
+
 		'ssl'           => SSL::class,
 		'www'           => WWW::class,
 		'search'        => Search::class,
+		'feedburner'    => FeedBurner::class,
+
+		'csp'           => CSP::class,
+		'hsts'          => HSTS::class,
+
 		'base'          => Base::class,
 	];
 
@@ -101,11 +137,6 @@ class Apache
 	];
 
 	/**
-	 * @var RewriteControl
-	 */
-	private $plugin;
-
-	/**
 	 * External constructor.
 	 *
 	 * @param RewriteControl $plugin
@@ -116,25 +147,35 @@ class Apache
 	}
 
 	/**
+	 * Retrieve the default options.
+	 *
+	 * @return array
+	 */
+	public function getOptions(): array
+	{
+		return self::$configOptions;
+	}
+
+	/**
 	 * Generate Apache rules based on current configuration.
 	 *
 	 * @return string
 	 */
-	public function rules(): string
+	public function getDirectives(): string
 	{
-		return array_reduce(self::$config, function ($rules, $class) {
+		return array_reduce(self::$configClasses, function ($directives, $class) {
 			$instance = new $class($this->plugin);
 
-			$rules .= $instance();
+			$directives .= $instance();
 
-			return $rules;
+			return $directives;
 		});
 	}
 
 	/**
 	 * Generate .htaccess file.
 	 */
-	public function flush(): void
+	public function saveDirectives(): void
 	{
 		save_mod_rewrite_rules();
 	}

@@ -14,13 +14,15 @@ use ic\Framework\Plugin\Plugin;
 class RewriteControl extends Plugin
 {
 
-	protected static $base = [
-		'author'              => 'author',
-		'search'              => 'search',
-		'comments'            => 'comments',
-		'pagination'          => 'page',
-		'comments_pagination' => 'comment-page',
-	];
+	/**
+	 * @var Apache
+	 */
+	protected $apache;
+
+	/**
+	 * @var WordPress
+	 */
+	protected $wordpress;
 
 	/**
 	 * @var string
@@ -38,47 +40,18 @@ class RewriteControl extends Plugin
 	protected $www;
 
 	/**
-	 * @var Apache
-	 */
-	protected $apache;
-
-	/**
-	 * @var WordPress
-	 */
-	protected $wordpress;
-
-	/**
 	 * @inheritdoc
 	 */
 	protected function configure(): void
 	{
 		parent::configure();
 
+		$this->apache    = new Apache($this);
+		$this->wordpress = new WordPress($this);
+
 		$this->setOptions([
-			'apache'    => [
-				'protect'       => true,
-				'cors'          => true,
-				'csp'           => '',
-				'ie'            => true,
-				'mime'          => true,
-				'charset'       => true,
-				'deflate'       => true,
-				'expires'       => true,
-				'ssl'           => true,
-				'ssl_all'       => false,
-				'www'           => true,
-				'search'        => true,
-				'feedburner'    => '',
-				'serviceworker' => '',
-			],
-			'wordpress' => [
-				'base'    => self::$base,
-				'archive' => [
-					'category' => false,
-					'tag'      => false,
-					'author'   => false,
-				],
-			],
+			'apache'    => $this->apache->getOptions(),
+			'wordpress' => $this->wordpress->getOptions(),
 		]);
 
 		$home = parse_url(home_url());
@@ -86,9 +59,6 @@ class RewriteControl extends Plugin
 		$this->ssl  = $home['scheme'] === 'https';
 		$this->www  = strpos($home['host'], 'www.') === 0;
 		$this->root = isset($home['path']) ? trailingslashit($home['path']) : '/';
-
-		$this->apache    = new Apache($this);
-		$this->wordpress = new WordPress($this);
 	}
 
 	/**
@@ -96,13 +66,29 @@ class RewriteControl extends Plugin
 	 */
 	protected function initialize(): void
 	{
-		$this->wordpress->setup();
+		$this->wordpress->initialize();
+	}
+
+	/**
+	 * @return Apache
+	 */
+	public function getApache(): Apache
+	{
+		return $this->apache;
+	}
+
+	/**
+	 * @return WordPress
+	 */
+	public function getWordPress(): WordPress
+	{
+		return $this->wordpress;
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function usingSSL(): bool
+	public function hasHttps(): bool
 	{
 		return $this->ssl;
 	}
@@ -110,7 +96,7 @@ class RewriteControl extends Plugin
 	/**
 	 * @return bool
 	 */
-	public function usingWWW(): bool
+	public function hasSubdomain(): bool
 	{
 		return $this->www;
 	}
@@ -141,44 +127,6 @@ class RewriteControl extends Plugin
 		global $wp_rewrite;
 
 		return $wp_rewrite->index;
-	}
-
-	/**
-	 * @param string $type
-	 *
-	 * @return string
-	 */
-	public function getBaseOption(string $type): string
-	{
-		$base = $this->getOption("wordpress.base.$type");
-
-		return !$base ? $this->getDefaultOption($type) : $base;
-	}
-
-	/**
-	 * @param string $type
-	 *
-	 * @return string
-	 */
-	public function getDefaultOption(string $type): string
-	{
-		return self::$base[$type];
-	}
-
-	/**
-	 * @return Apache
-	 */
-	public function getApache(): Apache
-	{
-		return $this->apache;
-	}
-
-	/**
-	 * @return WordPress
-	 */
-	public function getWordPress(): WordPress
-	{
-		return $this->wordpress;
 	}
 
 }

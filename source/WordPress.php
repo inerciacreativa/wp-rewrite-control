@@ -13,7 +13,18 @@ class WordPress
 	/**
 	 * @var RewriteControl
 	 */
-	protected $plugin;
+	private $plugin;
+
+	/**
+	 * @var array
+	 */
+	private static $baseOptions = [
+		'author'              => 'author',
+		'search'              => 'search',
+		'comments'            => 'comments',
+		'pagination'          => 'page',
+		'comments_pagination' => 'comment-page',
+	];
 
 	/**
 	 * WordPress constructor.
@@ -28,15 +39,32 @@ class WordPress
 	/**
 	 *
 	 */
-	public function setup(): void
+	public function initialize(): void
 	{
 		global $wp_rewrite;
 
-		$wp_rewrite->author_base              = $this->plugin->getBaseOption('author');
-		$wp_rewrite->search_base              = $this->plugin->getBaseOption('search');
-		$wp_rewrite->comments_base            = $this->plugin->getBaseOption('comments');
-		$wp_rewrite->pagination_base          = $this->plugin->getBaseOption('pagination');
-		$wp_rewrite->comments_pagination_base = $this->plugin->getBaseOption('comments_pagination');
+		$wp_rewrite->author_base              = $this->getBaseOption('author');
+		$wp_rewrite->search_base              = $this->getBaseOption('search');
+		$wp_rewrite->comments_base            = $this->getBaseOption('comments');
+		$wp_rewrite->pagination_base          = $this->getBaseOption('pagination');
+		$wp_rewrite->comments_pagination_base = $this->getBaseOption('comments_pagination');
+	}
+
+	/**
+	 * Retrieve the default options.
+	 *
+	 * @return array
+	 */
+	public function getOptions(): array
+	{
+		return [
+			'base'    => self::$baseOptions,
+			'archive' => [
+				'category' => false,
+				'tag'      => false,
+				'author'   => false,
+			],
+		];
 	}
 
 	/**
@@ -44,22 +72,22 @@ class WordPress
 	 *
 	 * @return array
 	 */
-	public function rules(array $rules): array
+	public function getRules(array $rules): array
 	{
-		$pagination = $this->plugin->getBaseOption('pagination');
+		$pagination = $this->getBaseOption('pagination');
 
-		if ($this->plugin->getOption('wordpress.archive.category')) {
+		if ($this->getArchiveOption('category')) {
 			$base  = get_option('category_base', 'category');
 			$rules = array_merge($this->getArchiveRules('category_name', $base, $pagination), $rules);
 		}
 
-		if ($this->plugin->getOption('wordpress.archive.tag')) {
+		if ($this->getArchiveOption('tag')) {
 			$base  = get_option('tag_base', 'tag');
 			$rules = array_merge($this->getArchiveRules('tag', $base, $pagination), $rules);
 		}
 
-		if ($this->plugin->getOption('wordpress.archive.author')) {
-			$base  = $this->plugin->getBaseOption('author');
+		if ($this->getArchiveOption('author')) {
+			$base  = $this->getBaseOption('author');
 			$rules = array_merge($this->getArchiveRules('author_name', $base, $pagination), $rules);
 		}
 
@@ -69,9 +97,41 @@ class WordPress
 	/**
 	 *
 	 */
-	public function flush(): void
+	public function saveRules(): void
 	{
 		flush_rewrite_rules(false);
+	}
+
+	/**
+	 * @param string $option
+	 *
+	 * @return string
+	 */
+	public function getDefaultOption(string $option): string
+	{
+		return self::$baseOptions[$option];
+	}
+
+	/**
+	 * @param string $option
+	 *
+	 * @return string
+	 */
+	protected function getBaseOption(string $option): string
+	{
+		$value = $this->plugin->getOption("wordpress.base.$option");
+
+		return empty($value) ? $this->getDefaultOption($option) : $value;
+	}
+
+	/**
+	 * @param string $option
+	 *
+	 * @return bool
+	 */
+	protected function getArchiveOption(string $option): bool
+	{
+		return (bool) $this->plugin->getOption("wordpress.archive.$option");
 	}
 
 	/**

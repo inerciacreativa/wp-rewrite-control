@@ -15,7 +15,7 @@ class HSTS extends ApacheConfig
 	 */
 	public function isEnabled(): bool
 	{
-		return (bool) $this->getConfig()['enable'] && $this->getPlugin()->usingSSL();
+		return (bool) $this->getConfig()['enable'] && $this->getPlugin()->hasHttps();
 	}
 
 	/**
