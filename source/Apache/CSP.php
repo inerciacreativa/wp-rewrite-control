@@ -13,9 +13,9 @@ class CSP extends ApacheConfig
 	/**
 	 * @inheritdoc
 	 */
-	public function getConfig(): string
+	public function getDirectives(): string
 	{
-		$csp = $this->plugin->getOption('apache.csp');
+		$csp = $this->getConfig();
 
 		return <<<EOT
 

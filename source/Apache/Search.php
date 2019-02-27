@@ -13,9 +13,9 @@ class Search extends ApacheConfig
 	/**
 	 * @inheritdoc
 	 */
-	public function getConfig(): string
+	public function getDirectives(): string
 	{
-		$slug = $this->plugin->getOption('wordpress.base.search');
+		$slug = $this->getPlugin()->getOption('wordpress.base.search');
 
 		return <<<EOT
 

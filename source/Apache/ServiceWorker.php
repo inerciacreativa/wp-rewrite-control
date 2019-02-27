@@ -8,9 +8,9 @@ class ServiceWorker extends ApacheConfig
 	/**
 	 * @inheritdoc
 	 */
-	public function getConfig(): string
+	public function getDirectives(): string
 	{
-		$script = $this->plugin->getOption('apache.serviceworker');
+		$script = $this->getConfig();
 		$file   = pathinfo($script);
 		$regexp = $file['filename'] . '(_[a-f\d]+)?\.' . $file['extension'];
 

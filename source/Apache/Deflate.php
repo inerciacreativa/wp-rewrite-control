@@ -13,7 +13,7 @@ class Deflate extends ApacheConfig
 	/**
 	 * @inheritdoc
 	 */
-	public function getConfig(): string
+	public function getDirectives(): string
 	{
 		return <<<EOT
 

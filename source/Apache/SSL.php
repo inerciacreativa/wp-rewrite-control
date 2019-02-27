@@ -15,15 +15,15 @@ class SSL extends ApacheConfig
 	 */
 	public function isEnabled(): bool
 	{
-		return parent::isEnabled() && $this->plugin->usingSSL();
+		return parent::isEnabled() && $this->getPlugin()->usingSSL();
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getConfig(): string
+	public function getDirectives(): string
 	{
-		$subdomains = $this->plugin->getOption('apache.ssl_all', false) ? '; includeSubDomains' : '';
+		$subdomains = $this->getPlugin()->getOption('apache.ssl_all', false) ? '; includeSubDomains' : '';
 
 		return <<<EOT
 

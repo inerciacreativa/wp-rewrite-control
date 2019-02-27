@@ -21,9 +21,9 @@ class Root extends ApacheConfig
 	/**
 	 * @return string
 	 */
-	public function getConfig(): string
+	public function getDirectives(): string
 	{
-		$root = $this->plugin->getRoot();
+		$root = $this->getPlugin()->getRoot();
 
 		return <<<EOT
 

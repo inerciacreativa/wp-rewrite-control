@@ -21,10 +21,10 @@ class Base extends ApacheConfig
 	/**
 	 * @return string
 	 */
-	public function getConfig(): string
+	public function getDirectives(): string
 	{
-		$root  = $this->plugin->getRoot();
-		$index = $this->plugin->getIndex();
+		$root  = $this->getPlugin()->getRoot();
+		$index = $this->getPlugin()->getIndex();
 
 		return <<<EOT
 

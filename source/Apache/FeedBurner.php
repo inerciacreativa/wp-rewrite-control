@@ -13,9 +13,9 @@ class FeedBurner extends ApacheConfig
 	/**
 	 * @inheritdoc
 	 */
-	public function getConfig(): string
+	public function getDirectives(): string
 	{
-		$slug = $this->plugin->getOption('apache.feedburner');
+		$slug = $this->getConfig();
 
 		return <<<EOT
 

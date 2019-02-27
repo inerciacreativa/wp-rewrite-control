@@ -51,9 +51,9 @@ EOT;
 	/**
 	 * @return string
 	 */
-	public function getConfig(): string
+	public function getDirectives(): string
 	{
-		return $this->plugin->usingWWW() ? $this->add() : $this->remove();
+		return $this->getPlugin()->usingWWW() ? $this->add() : $this->remove();
 	}
 
 }
