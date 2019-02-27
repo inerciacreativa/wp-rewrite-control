@@ -9,7 +9,7 @@ use ic\Plugin\RewriteControl\RewriteControl;
  *
  * @package ic\Plugin\RewriteControl\Apache
  */
-abstract class Config
+abstract class ApacheConfig
 {
 
 	/**

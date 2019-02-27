@@ -7,7 +7,7 @@ namespace ic\Plugin\RewriteControl\Apache;
  *
  * @package ic\Plugin\RewriteControl\Apache
  */
-class Charset extends Config
+class Charset extends ApacheConfig
 {
 
 	/**

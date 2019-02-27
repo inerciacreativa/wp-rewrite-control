@@ -7,7 +7,7 @@ namespace ic\Plugin\RewriteControl\Apache;
  *
  * @package ic\Plugin\RewriteControl\Apache
  */
-class Base extends Config
+class Base extends ApacheConfig
 {
 
 	/**

@@ -7,7 +7,7 @@ namespace ic\Plugin\RewriteControl\Apache;
  *
  * @package ic\Plugin\RewriteControl\Apache
  */
-class FeedBurner extends Config
+class FeedBurner extends ApacheConfig
 {
 
 	/**

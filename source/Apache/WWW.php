@@ -7,7 +7,7 @@ namespace ic\Plugin\RewriteControl\Apache;
  *
  * @package ic\Plugin\RewriteControl\Apache
  */
-class WWW extends Config
+class WWW extends ApacheConfig
 {
 
 	protected function add(): string

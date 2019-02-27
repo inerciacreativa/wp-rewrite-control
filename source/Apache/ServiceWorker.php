@@ -2,7 +2,7 @@
 
 namespace ic\Plugin\RewriteControl\Apache;
 
-class ServiceWorker extends Config
+class ServiceWorker extends ApacheConfig
 {
 
 	/**

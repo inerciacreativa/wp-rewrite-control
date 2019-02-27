@@ -7,7 +7,7 @@ namespace ic\Plugin\RewriteControl\Apache;
  *
  * @package ic\Plugin\RewriteControl\Apache
  */
-class Protect extends Config
+class Protect extends ApacheConfig
 {
 
 	/**

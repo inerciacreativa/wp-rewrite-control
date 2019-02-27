@@ -7,7 +7,7 @@ namespace ic\Plugin\RewriteControl\Apache;
  *
  * @package ic\Plugin\RewriteControl\Apache
  */
-class IE extends Config
+class IE extends ApacheConfig
 {
 
 	/**

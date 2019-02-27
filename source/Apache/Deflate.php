@@ -7,7 +7,7 @@ namespace ic\Plugin\RewriteControl\Apache;
  *
  * @package ic\Plugin\RewriteControl\Apache
  */
-class Deflate extends Config
+class Deflate extends ApacheConfig
 {
 
 	/**

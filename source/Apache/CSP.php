@@ -7,7 +7,7 @@ namespace ic\Plugin\RewriteControl\Apache;
  *
  * @package ic\Plugin\RewriteControl\Apache
  */
-class CSP extends Config
+class CSP extends ApacheConfig
 {
 
 	/**
