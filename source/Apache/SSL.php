@@ -23,21 +23,15 @@ class SSL extends ApacheConfig
 	 */
 	public function getDirectives(): string
 	{
-		$subdomains = $this->getPlugin()->getOption('apache.ssl_all', false) ? '; includeSubDomains' : '';
-
 		return <<<EOT
 
 # ----------------------------------------------------------------------
 # SSL
 # ----------------------------------------------------------------------
-<IfModule mod_headers.c>
-     Header set Strict-Transport-Security "max-age=31536000$subdomains" "expr=%{HTTPS} == 'on'"
- </IfModule>
-
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteCond %{HTTPS} !=on
-    RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 </IfModule>
 
 EOT;
