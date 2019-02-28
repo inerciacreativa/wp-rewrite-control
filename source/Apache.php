@@ -18,6 +18,7 @@ use ic\Plugin\RewriteControl\Apache\Search;
 use ic\Plugin\RewriteControl\Apache\ServiceWorker;
 use ic\Plugin\RewriteControl\Apache\SSL;
 use ic\Plugin\RewriteControl\Apache\WWW;
+use ic\Plugin\RewriteControl\Apache\XFrame;
 
 /**
  * Class Apache
@@ -45,13 +46,14 @@ class Apache
 		'expires'       => true,
 		'serviceworker' => '',
 
-		'ssl'           => true,
-		'www'           => true,
-		'search'        => true,
-		'feedburner'    => '',
+		'ssl'        => true,
+		'www'        => true,
+		'search'     => true,
+		'feedburner' => '',
 
-		'csp'           => '',
-		'hsts'          => [
+		'xframe' => false,
+		'csp'    => '',
+		'hsts'   => [
 			'enable'     => false,
 			'subdomains' => false,
 			'preload'    => false,
@@ -72,15 +74,16 @@ class Apache
 		'root'          => Root::class,
 		'serviceworker' => ServiceWorker::class,
 
-		'ssl'           => SSL::class,
-		'www'           => WWW::class,
-		'search'        => Search::class,
-		'feedburner'    => FeedBurner::class,
+		'ssl'        => SSL::class,
+		'www'        => WWW::class,
+		'search'     => Search::class,
+		'feedburner' => FeedBurner::class,
 
-		'csp'           => CSP::class,
-		'hsts'          => HSTS::class,
+		'xframe' => XFrame::class,
+		'csp'    => CSP::class,
+		'hsts'   => HSTS::class,
 
-		'base'          => Base::class,
+		'base' => Base::class,
 	];
 
 	private static $filesMatchPattern = [
