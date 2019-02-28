@@ -148,9 +148,13 @@ class Backend extends PluginClass
 					        ]);
 				        }
 
-				        $section->choices('apache.xframe', __('X-Frame-Options', $this->id()), [
+				        $section->choices('apache.xframe', __('Display content on frames', $this->id()), [
 					        'description' => __('Configure <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options"><code>X-Frame-Options</code></a>, informing browsers not to display the content of the web page in any frame (<code>DENY</code>) or only if the origin is the same as the page itself (<code>SAMEORIGIN</code>).', $this->id()),
 				        ], [false => __('Unset', $this->id()), 'DENY' => 'DENY', 'SAMEORIGIN' => 'SAMEORIGIN']);
+
+				        $section->checkbox('apache.xssprotection', __('Enable XSS filter', $this->id()), [
+					        'label' => __('Send the <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection"><code>X-XSS-Protection</code></a> header to prevent web browsers from rendering the web page if a potential reflected XSS attack is detected.', $this->id()),
+				        ]);
 			        });
 
 			        $tab->onFinalization(function () {

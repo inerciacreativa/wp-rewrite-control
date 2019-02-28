@@ -20,6 +20,7 @@ use ic\Plugin\RewriteControl\Apache\SSL;
 use ic\Plugin\RewriteControl\Apache\WWW;
 use ic\Plugin\RewriteControl\Apache\XContentType;
 use ic\Plugin\RewriteControl\Apache\XFrame;
+use ic\Plugin\RewriteControl\Apache\XSSProtection;
 
 /**
  * Class Apache
@@ -51,15 +52,16 @@ class Apache
 		'search'     => true,
 		'feedburner' => '',
 
-		'xframe'       => false,
-		'csp'          => '',
-		'fileaccess'   => true,
-		'hsts'         => [
+		'xframe'        => false,
+		'csp'           => '',
+		'fileaccess'    => true,
+		'hsts'          => [
 			'enable'     => false,
 			'subdomains' => false,
 			'preload'    => false,
 		],
-		'xcontenttype' => true,
+		'xcontenttype'  => true,
+		'xssprotection' => false,
 	];
 
 	/**
@@ -80,11 +82,12 @@ class Apache
 		'search'     => Search::class,
 		'feedburner' => FeedBurner::class,
 
-		'xframe'       => XFrame::class,
-		'csp'          => CSP::class,
-		'fileaccess'   => FileAccess::class,
-		'hsts'         => HSTS::class,
-		'xcontenttype' => XContentType::class,
+		'xframe'        => XFrame::class,
+		'csp'           => CSP::class,
+		'fileaccess'    => FileAccess::class,
+		'hsts'          => HSTS::class,
+		'xcontenttype'  => XContentType::class,
+		'xssprotection' => XSSProtection::class,
 
 		'base' => Base::class,
 	];
