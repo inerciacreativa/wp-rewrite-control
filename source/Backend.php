@@ -26,14 +26,14 @@ class Backend extends PluginClass
 		parent::configure();
 
 		$this->hook()
-		     ->on('mod_rewrite_rules', 'generateApacheRules')
-		     ->on('rewrite_rules_array', 'generateWordPressRules');
+		     ->on('mod_rewrite_rules', 'getApacheDirectives')
+		     ->on('rewrite_rules_array', 'getWordPressRules');
 	}
 
 	/**
 	 * @return string
 	 */
-	protected function generateApacheRules(): string
+	protected function getApacheDirectives(): string
 	{
 		return $this->getPlugin()->getApache()->getDirectives();
 	}
@@ -43,7 +43,7 @@ class Backend extends PluginClass
 	 *
 	 * @return array
 	 */
-	protected function generateWordPressRules(array $rules): array
+	protected function getWordPressRules(array $rules): array
 	{
 		return $this->getPlugin()->getWordPress()->getRules($rules);
 	}
@@ -131,7 +131,7 @@ class Backend extends PluginClass
 
 				        if ($this->getPlugin()->hasHttps()) {
 					        $section->checkbox('apache.hsts.enable', __('HSTS', $this->id()), [
-						        'label' => __('Enforce <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security"><code>Strict Transport Security</code></a> in the browser. Be aware that this, once published, is not revokable.', $this->id()),
+						        'label' => __('Enforce <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security"><code>Strict-Transport-Security</code></a> in the browser. Be aware that this, once published, is not revokable.', $this->id()),
 					        ]);
 
 					        $section->checkbox('apache.hsts.subdomains', __('HSTS on subdomains', $this->id()), [
@@ -143,6 +143,9 @@ class Backend extends PluginClass
 					        ]);
 				        }
 
+				        $section->checkbox('apache.xframe', __('Clickjacking', $this->id()), [
+					        'label' => __('Sets <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options"><code>X-Frame-Options</code></a> to <code>DENY</code>.', $this->id()),
+				        ]);
 			        });
 
 			        $tab->onFinalization(function () {
