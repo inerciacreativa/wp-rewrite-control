@@ -143,9 +143,9 @@ class Backend extends PluginClass
 					        ]);
 				        }
 
-				        $section->checkbox('apache.xframe', __('Clickjacking', $this->id()), [
-					        'label' => __('Sets <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options"><code>X-Frame-Options</code></a> to <code>DENY</code>.', $this->id()),
-				        ]);
+				        $section->choices('apache.xframe', __('X-Frame-Options', $this->id()), [
+					        'description' => __('Configure <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options"><code>X-Frame-Options</code></a>, informing browsers not to display the content of the web page in any frame (<code>DENY</code>) or only if the origin is the same as the page itself (<code>SAMEORIGIN</code>).', $this->id()),
+				        ], [false => __('Unset', $this->id()), 'DENY' => 'DENY', 'SAMEORIGIN' => 'SAMEORIGIN']);
 			        });
 
 			        $tab->onFinalization(function () {

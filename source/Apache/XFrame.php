@@ -15,7 +15,8 @@ class XFrame extends ApacheConfig
 	 */
 	public function getDirectives(): string
 	{
-		$filesMatchPattern = $this->getFilesMatchPattern();
+		$value   = $this->getConfig();
+		$pattern = $this->getFilesMatchPattern();
 
 		return <<<EOT
 
@@ -23,9 +24,9 @@ class XFrame extends ApacheConfig
 # Clickjacking
 # ----------------------------------------------------------------------
 <IfModule mod_headers.c>
-	Header set X-Frame-Options "DENY"
+	Header set X-Frame-Options "$value"
 
-	<FilesMatch "$filesMatchPattern">
+	<FilesMatch "$pattern">
 		Header unset X-Frame-Options
 	</FilesMatch>
 </IfModule>
