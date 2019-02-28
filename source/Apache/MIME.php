@@ -68,13 +68,6 @@ class MIME extends ApacheConfig
     AddType text/x-component                            htc
 </IfModule>
 
-# ----------------------------------------------------------------------
-# Reduce MIME type security risks
-# ----------------------------------------------------------------------
-<IfModule mod_headers.c>
-    Header set X-Content-Type-Options "nosniff"
-</IfModule>
-
 EOT;
 
 	}

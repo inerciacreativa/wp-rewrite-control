@@ -9,15 +9,16 @@ use ic\Plugin\RewriteControl\Apache\CSP;
 use ic\Plugin\RewriteControl\Apache\Deflate;
 use ic\Plugin\RewriteControl\Apache\Expires;
 use ic\Plugin\RewriteControl\Apache\FeedBurner;
+use ic\Plugin\RewriteControl\Apache\FileAccess;
 use ic\Plugin\RewriteControl\Apache\HSTS;
 use ic\Plugin\RewriteControl\Apache\IE;
 use ic\Plugin\RewriteControl\Apache\MIME;
-use ic\Plugin\RewriteControl\Apache\Protect;
 use ic\Plugin\RewriteControl\Apache\Root;
 use ic\Plugin\RewriteControl\Apache\Search;
 use ic\Plugin\RewriteControl\Apache\ServiceWorker;
 use ic\Plugin\RewriteControl\Apache\SSL;
 use ic\Plugin\RewriteControl\Apache\WWW;
+use ic\Plugin\RewriteControl\Apache\XContentType;
 use ic\Plugin\RewriteControl\Apache\XFrame;
 
 /**
@@ -37,7 +38,6 @@ class Apache
 	 * @var array
 	 */
 	private static $configOptions = [
-		'protect'       => true,
 		'cors'          => true,
 		'ie'            => true,
 		'mime'          => true,
@@ -51,20 +51,21 @@ class Apache
 		'search'     => true,
 		'feedburner' => '',
 
-		'xframe' => false,
-		'csp'    => '',
-		'hsts'   => [
+		'xframe'       => false,
+		'csp'          => '',
+		'fileaccess'   => true,
+		'hsts'         => [
 			'enable'     => false,
 			'subdomains' => false,
 			'preload'    => false,
 		],
+		'xcontenttype' => true,
 	];
 
 	/**
 	 * @var array
 	 */
 	private static $configClasses = [
-		'protect'       => Protect::class,
 		'cors'          => CORS::class,
 		'ie'            => IE::class,
 		'mime'          => MIME::class,
@@ -79,9 +80,11 @@ class Apache
 		'search'     => Search::class,
 		'feedburner' => FeedBurner::class,
 
-		'xframe' => XFrame::class,
-		'csp'    => CSP::class,
-		'hsts'   => HSTS::class,
+		'xframe'       => XFrame::class,
+		'csp'          => CSP::class,
+		'fileaccess'   => FileAccess::class,
+		'hsts'         => HSTS::class,
+		'xcontenttype' => XContentType::class,
 
 		'base' => Base::class,
 	];

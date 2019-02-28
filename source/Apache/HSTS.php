@@ -30,7 +30,7 @@ class HSTS extends ApacheConfig
 		return <<<EOT
 
 # ----------------------------------------------------------------------
-# SSL
+# HTTP Strict Transport Security (HSTS)
 # ----------------------------------------------------------------------
 <IfModule mod_headers.c>
      Header set Strict-Transport-Security "max-age=$maxage$subdomains$preload" "expr=%{HTTPS} == 'on'"

@@ -61,9 +61,6 @@ class Backend extends PluginClass
 			        $tab->setTitle(__('Apache Config', $this->id()))
 			            ->addSection('general', function (Section $section) {
 				            $section->title(__('General Options', $this->id()))
-				                    ->checkbox('apache.protect', __('File protection', $this->id()), [
-					                    'label' => __('Block access to files that can expose sensitive information.', $this->id()),
-				                    ])
 				                    ->checkbox('apache.ie', __('Document modes', $this->id()), [
 					                    'label' => __('Force Internet Explorer 8/9/10 to render pages in the highest document mode available.', $this->id()),
 				                    ])
@@ -123,6 +120,14 @@ class Backend extends PluginClass
 
 			        $tab->addSection('security', function (Section $section) {
 				        $section->title('Security');
+
+				        $section->checkbox('apache.fileaccess', __('File protection', $this->id()), [
+					        'label' => __('Block access to hidden files and directories, and files that can expose sensitive information.', $this->id()),
+				        ]);
+
+				        $section->checkbox('apache.xcontenttype', __('Reduce MIME type security risks', $this->id()), [
+					        'label' => __('Prevent some browsers from MIME-sniffing the response sending the <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options"><code>X-Content-Type-Options</code></a> header with the <code>nosniff</code> value.', $this->id()),
+				        ]);
 
 				        $section->text('apache.csp', __('Content Security Police', $this->id()), [
 					        'class'       => 'regular-text code',
