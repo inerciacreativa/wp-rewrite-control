@@ -20,6 +20,10 @@ class Information extends ApacheConfig
 # ----------------------------------------------------------------------
 # Server software information
 # ----------------------------------------------------------------------
+<IfModule mod_headers.c>
+    Header unset X-Powered-By
+</IfModule>
+
 ServerSignature Off
 
 EOT;
