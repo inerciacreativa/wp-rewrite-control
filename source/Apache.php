@@ -12,6 +12,7 @@ use ic\Plugin\RewriteControl\Apache\FeedBurner;
 use ic\Plugin\RewriteControl\Apache\FileAccess;
 use ic\Plugin\RewriteControl\Apache\HSTS;
 use ic\Plugin\RewriteControl\Apache\IE;
+use ic\Plugin\RewriteControl\Apache\Information;
 use ic\Plugin\RewriteControl\Apache\MIME;
 use ic\Plugin\RewriteControl\Apache\Root;
 use ic\Plugin\RewriteControl\Apache\Search;
@@ -62,6 +63,7 @@ class Apache
 		],
 		'xcontenttype'  => true,
 		'xssprotection' => false,
+		'information'   => true,
 	];
 
 	/**
@@ -88,6 +90,7 @@ class Apache
 		'hsts'          => HSTS::class,
 		'xcontenttype'  => XContentType::class,
 		'xssprotection' => XSSProtection::class,
+		'information'   => Information::class,
 
 		'base' => Base::class,
 	];

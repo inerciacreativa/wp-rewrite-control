@@ -121,6 +121,10 @@ class Backend extends PluginClass
 			        $tab->addSection('security', function (Section $section) {
 				        $section->title('Security');
 
+				        $section->checkbox('apache.information', __('Server software information', $this->id()), [
+					        'label' => __('Prevent Apache from adding a trailing footer line containing information about the server to the server-generated documents.', $this->id()),
+				        ]);
+
 				        $section->checkbox('apache.fileaccess', __('File protection', $this->id()), [
 					        'label' => __('Block access to hidden files and directories, and files that can expose sensitive information.', $this->id()),
 				        ]);
