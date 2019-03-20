@@ -3,11 +3,11 @@
 namespace ic\Plugin\RewriteControl\Apache;
 
 /**
- * Class CSP
+ * Class RewriteSearch
  *
  * @package ic\Plugin\RewriteControl\Apache
  */
-class CSP extends ApacheConfig
+class RewriteSearch extends ApacheConfig
 {
 
 	/**
@@ -15,15 +15,17 @@ class CSP extends ApacheConfig
 	 */
 	public function getDirectives(): string
 	{
-		$csp = $this->getConfig();
+		$slug = $this->plugin->getOption('wordpress.base.search');
 
 		return <<<EOT
 
 # ----------------------------------------------------------------------
-# Content-Security-Policy
+# Rewrite WordPress search
 # ----------------------------------------------------------------------
-<IfModule mod_headers.c>
-	Header set Content-Security-Policy "$csp"
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{QUERY_STRING} \\\\?s=([^&]+) [NC]
+    RewriteRule ^$ /{$slug}/%1/? [NC,R,L]
 </IfModule>
 
 EOT;

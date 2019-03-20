@@ -2,17 +2,43 @@
 
 namespace ic\Plugin\RewriteControl\Apache;
 
+/**
+ * Class ServiceWorker
+ *
+ * @package ic\Plugin\RewriteControl\Apache
+ */
 class ServiceWorker extends ApacheConfig
 {
 
 	/**
 	 * @inheritdoc
 	 */
+	public static function initial(): array
+	{
+		return [
+			'script' => '',
+			'cache'  => '0',
+		];
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function isEnabled(): bool
+	{
+		return !empty($this->getConfig('script'));
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function getDirectives(): string
 	{
-		$script = $this->getConfig();
+		$script = $this->getConfig('script');
+		$cache  = $this->getConfig('cache');
+
 		$file   = pathinfo($script);
-		$regexp = $file['filename'] . '(_[a-f\d]+)?\.' . $file['extension'];
+		$regexp = $file['filename'] . '(\.\w+)?\.' . $file['extension'];
 
 		return <<<EOT
 
@@ -20,12 +46,10 @@ class ServiceWorker extends ApacheConfig
 # Service Worker
 # ----------------------------------------------------------------------
 <FilesMatch "$regexp">
-	<IfModule mod_headers.c>
-		Header set Service-Worker-Allowed "/"
-		Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
-		Header set Pragma "no-cache"
-		Header set Expires "Wed, 11 Jan 1984 05:00:00 GMT"
-	</IfModule>
+    <IfModule mod_headers.c>
+        Header set Service-Worker-Allowed "/"
+        Header set Cache-Control "max-age=$cache, must-revalidate"
+    </IfModule>
 </FilesMatch>
 
 EOT;

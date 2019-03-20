@@ -2,59 +2,66 @@
 
 namespace ic\Plugin\RewriteControl\Apache;
 
+use ic\Framework\Support\Str;
 use ic\Plugin\RewriteControl\RewriteControl;
 
 /**
- * Class Config
+ * Class ApacheConfig
  *
  * @package ic\Plugin\RewriteControl\Apache
  */
 abstract class ApacheConfig
 {
 
+	protected const PREFIX = 'apache';
+
 	/**
 	 * @var RewriteControl
 	 */
-	private $plugin;
+	protected $plugin;
 
 	/**
-	 * @var string
-	 */
-	private $name;
-
-	/**
-	 * Config constructor.
+	 * ApacheConfig constructor.
 	 *
 	 * @param RewriteControl $plugin
 	 */
 	public function __construct(RewriteControl $plugin)
 	{
 		$this->plugin = $plugin;
-		$this->name   = strtolower(str_replace(__NAMESPACE__ . '\\', '', static::class));
 	}
 
 	/**
-	 * @return RewriteControl
+	 * @param string $option
+	 *
+	 * @return string
 	 */
-	public function getPlugin(): RewriteControl
+	public static function id(string $option = null): string
 	{
-		return $this->plugin;
+		static $id;
+
+		if ($id === null) {
+			$id = Str::snake(str_replace(__NAMESPACE__ . '\\', '', static::class));
+		}
+
+		return self::PREFIX . '.' . $id . ($option ? ".$option" : '');
 	}
 
 	/**
 	 * @return mixed
 	 */
-	public function getConfig()
+	public static function initial()
 	{
-		return $this->plugin->getOption('apache.' . $this->name);
+		return false;
 	}
 
 	/**
-	 * @return string
+	 * @param string $option
+	 *
+	 * @return mixed
 	 */
-	public function getFilesMatchPattern(): string
+	public function getConfig(string $option = null)
 	{
-		return $this->plugin->getApache()->getFilesMatchPattern();
+		return $this->plugin->getOption(static::id($option));
 	}
 
 	/**

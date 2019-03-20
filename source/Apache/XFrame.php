@@ -10,6 +10,28 @@ namespace ic\Plugin\RewriteControl\Apache;
 class XFrame extends ApacheConfig
 {
 
+	use ApacheFilesMatchPattern;
+
+	/**
+	 * @inheritdoc
+	 */
+	public static function initial()
+	{
+		return 'SAMEORIGIN';
+	}
+
+	/**
+	 * @return array
+	 */
+	public static function options(): array
+	{
+		return [
+			false        => 'Not set',
+			'deny'       => 'Deny',
+			'sameorigin' => 'Same Origin',
+		];
+	}
+
 	/**
 	 * @inheritdoc
 	 */
@@ -24,11 +46,11 @@ class XFrame extends ApacheConfig
 # Clickjacking
 # ----------------------------------------------------------------------
 <IfModule mod_headers.c>
-	Header set X-Frame-Options "$value"
+    Header set X-Frame-Options "$value"
 
-	<FilesMatch "$pattern">
-		Header unset X-Frame-Options
-	</FilesMatch>
+    <FilesMatch "$pattern">
+        Header unset X-Frame-Options
+    </FilesMatch>
 </IfModule>
 
 EOT;

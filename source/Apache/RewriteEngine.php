@@ -3,29 +3,43 @@
 namespace ic\Plugin\RewriteControl\Apache;
 
 /**
- * Class Search
+ * Class Root
  *
  * @package ic\Plugin\RewriteControl\Apache
  */
-class Search extends ApacheConfig
+class RewriteEngine extends ApacheConfig
 {
 
 	/**
 	 * @inheritdoc
 	 */
+	public function isEnabled(): bool
+	{
+		return true;
+	}
+
+	/**
+	 * @return string
+	 */
 	public function getDirectives(): string
 	{
-		$slug = $this->getPlugin()->getOption('wordpress.base.search');
+		$root = $this->plugin->getRoot();
 
 		return <<<EOT
 
 # ----------------------------------------------------------------------
-# Search
+# Rewrite engine
 # ----------------------------------------------------------------------
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteCond %{QUERY_STRING} \\\\?s=([^&]+) [NC]
-    RewriteRule ^$ /{$slug}/%1/? [NC,R,L]
+    RewriteBase {$root}
+
+    Options +FollowSymlinks
+
+    RewriteCond %{HTTPS} =on
+    RewriteRule ^ - [ENV=PROTO:https]
+    RewriteCond %{HTTPS} !=on
+    RewriteRule ^ - [ENV=PROTO:http]
 </IfModule>
 
 EOT;

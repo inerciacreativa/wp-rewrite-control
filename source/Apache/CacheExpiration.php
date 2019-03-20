@@ -3,12 +3,20 @@
 namespace ic\Plugin\RewriteControl\Apache;
 
 /**
- * Class Expires
+ * Class CacheExpiration
  *
  * @package ic\Plugin\RewriteControl\Apache
  */
-class Expires extends ApacheConfig
+class CacheExpiration extends ApacheConfig
 {
+
+	/**
+	 * @inheritdoc
+	 */
+	public static function initial()
+	{
+		return true;
+	}
 
 	/**
 	 * @inheritdoc
@@ -18,14 +26,8 @@ class Expires extends ApacheConfig
 		return <<<EOT
 
 # ----------------------------------------------------------------------
-# Expires headers
+# Cache expiration
 # ----------------------------------------------------------------------
-<IfModule mod_headers.c>
-    Header unset ETag
-</IfModule>
-
-FileETag None
-
 <IfModule mod_expires.c>
     ExpiresActive on
     ExpiresDefault                                      "access plus 1 month"
@@ -37,11 +39,13 @@ FileETag None
     ExpiresByType application/atom+xml                  "access plus 1 hour"
     ExpiresByType application/rdf+xml                   "access plus 1 hour"
     ExpiresByType application/rss+xml                   "access plus 1 hour"
+
     ExpiresByType application/json                      "access plus 0 seconds"
     ExpiresByType application/ld+json                   "access plus 0 seconds"
     ExpiresByType application/schema+json               "access plus 0 seconds"
-    ExpiresByType application/vnd.geo+json              "access plus 0 seconds"
+    ExpiresByType application/geo+json                  "access plus 0 seconds"
     ExpiresByType application/xml                       "access plus 0 seconds"
+    ExpiresByType text/calendar                         "access plus 0 seconds"
     ExpiresByType text/xml                              "access plus 0 seconds"
 
   # Favicon (cannot be renamed!) and cursor images
@@ -60,6 +64,9 @@ FileETag None
     ExpiresByType application/manifest+json             "access plus 1 week"
     ExpiresByType application/x-web-app-manifest+json   "access plus 0 seconds"
     ExpiresByType text/cache-manifest                   "access plus 0 seconds"
+
+  # Markdown
+    ExpiresByType text/markdown                         "access plus 0 seconds"
 
   # Media files
     ExpiresByType audio/ogg                             "access plus 1 year"
@@ -82,6 +89,34 @@ FileETag None
     ExpiresByType application/x-font-woff               "access plus 1 month"
     ExpiresByType font/woff                             "access plus 1 month"
     ExpiresByType application/font-woff2                "access plus 1 month"
+
+  # WebAssembly
+    ExpiresByType application/wasm                      "access plus 1 year"
+
+  # Web fonts
+    # Collection
+    ExpiresByType font/collection                       "access plus 1 month"
+
+    # Embedded OpenType (EOT)
+    ExpiresByType application/vnd.ms-fontobject         "access plus 1 month"
+    ExpiresByType font/eot                              "access plus 1 month"
+
+    # OpenType
+    ExpiresByType font/opentype                         "access plus 1 month"
+    ExpiresByType font/otf                              "access plus 1 month"
+
+    # TrueType
+    ExpiresByType application/x-font-ttf                "access plus 1 month"
+    ExpiresByType font/ttf                              "access plus 1 month"
+
+    # Web Open Font Format (WOFF) 1.0
+    ExpiresByType application/font-woff                 "access plus 1 month"
+    ExpiresByType application/x-font-woff               "access plus 1 month"
+    ExpiresByType font/woff                             "access plus 1 month"
+
+    # Web Open Font Format (WOFF) 2.0
+    ExpiresByType application/font-woff2                "access plus 1 month"
+    ExpiresByType font/woff2                            "access plus 1 month"
 
   # Other
     ExpiresByType text/x-cross-domain-policy            "access plus 1 week"

@@ -3,11 +3,11 @@
 namespace ic\Plugin\RewriteControl\Apache;
 
 /**
- * Class XContentType
+ * Class ETags
  *
  * @package ic\Plugin\RewriteControl\Apache
  */
-class XContentType extends ApacheConfig
+class ETags extends ApacheConfig
 {
 
 	/**
@@ -21,26 +21,21 @@ class XContentType extends ApacheConfig
 	/**
 	 * @inheritdoc
 	 */
-	public function isEnabled(): bool
-	{
-		return true;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
 	public function getDirectives(): string
 	{
 		return <<<EOT
 
 # ----------------------------------------------------------------------
-# Reduce MIME type security risks
+# ETags
 # ----------------------------------------------------------------------
 <IfModule mod_headers.c>
-    Header set X-Content-Type-Options "nosniff"
+    Header unset ETag
 </IfModule>
 
+FileETag None
+
 EOT;
+
 	}
 
 }

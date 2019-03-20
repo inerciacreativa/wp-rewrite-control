@@ -13,6 +13,14 @@ class FileAccess extends ApacheConfig
 	/**
 	 * @inheritdoc
 	 */
+	public static function initial()
+	{
+		return true;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function getDirectives(): string
 	{
 		return <<<EOT

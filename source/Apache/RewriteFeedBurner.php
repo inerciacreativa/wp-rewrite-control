@@ -3,12 +3,20 @@
 namespace ic\Plugin\RewriteControl\Apache;
 
 /**
- * Class FeedBurner
+ * Class RewriteFeedBurner
  *
  * @package ic\Plugin\RewriteControl\Apache
  */
-class FeedBurner extends ApacheConfig
+class RewriteFeedBurner extends ApacheConfig
 {
+
+	/**
+	 * @inheritdoc
+	 */
+	public static function initial()
+	{
+		return '';
+	}
 
 	/**
 	 * @inheritdoc

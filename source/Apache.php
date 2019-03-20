@@ -2,26 +2,30 @@
 
 namespace ic\Plugin\RewriteControl;
 
-use ic\Plugin\RewriteControl\Apache\Base;
-use ic\Plugin\RewriteControl\Apache\Charset;
-use ic\Plugin\RewriteControl\Apache\CORS;
-use ic\Plugin\RewriteControl\Apache\CSP;
-use ic\Plugin\RewriteControl\Apache\Deflate;
-use ic\Plugin\RewriteControl\Apache\Expires;
-use ic\Plugin\RewriteControl\Apache\FeedBurner;
+use ic\Plugin\RewriteControl\Apache\CacheBusting;
+use ic\Plugin\RewriteControl\Apache\CacheExpiration;
+use ic\Plugin\RewriteControl\Apache\CharacterEncodings;
+use ic\Plugin\RewriteControl\Apache\Compression;
+use ic\Plugin\RewriteControl\Apache\ContentSecurityPolice;
+use ic\Plugin\RewriteControl\Apache\ContentTransformation;
+use ic\Plugin\RewriteControl\Apache\CrossOrigin;
+use ic\Plugin\RewriteControl\Apache\ETags;
 use ic\Plugin\RewriteControl\Apache\FileAccess;
-use ic\Plugin\RewriteControl\Apache\HSTS;
-use ic\Plugin\RewriteControl\Apache\IE;
-use ic\Plugin\RewriteControl\Apache\Information;
-use ic\Plugin\RewriteControl\Apache\MIME;
-use ic\Plugin\RewriteControl\Apache\Root;
-use ic\Plugin\RewriteControl\Apache\Search;
+use ic\Plugin\RewriteControl\Apache\InternetExplorer;
+use ic\Plugin\RewriteControl\Apache\MediaTypes;
+use ic\Plugin\RewriteControl\Apache\ReferrerPolicy;
+use ic\Plugin\RewriteControl\Apache\RewriteEngine;
+use ic\Plugin\RewriteControl\Apache\RewriteFeedBurner;
+use ic\Plugin\RewriteControl\Apache\RewriteHttps;
+use ic\Plugin\RewriteControl\Apache\RewriteSearch;
+use ic\Plugin\RewriteControl\Apache\RewriteSubdomain;
 use ic\Plugin\RewriteControl\Apache\ServiceWorker;
-use ic\Plugin\RewriteControl\Apache\SSL;
-use ic\Plugin\RewriteControl\Apache\WWW;
+use ic\Plugin\RewriteControl\Apache\SoftwareInformation;
+use ic\Plugin\RewriteControl\Apache\StrictTransportSecurity;
+use ic\Plugin\RewriteControl\Apache\WordPress;
 use ic\Plugin\RewriteControl\Apache\XContentType;
 use ic\Plugin\RewriteControl\Apache\XFrame;
-use ic\Plugin\RewriteControl\Apache\XSSProtection;
+use ic\Plugin\RewriteControl\Apache\XssProtection;
 
 /**
  * Class Apache
@@ -39,113 +43,33 @@ class Apache
 	/**
 	 * @var array
 	 */
-	private static $configOptions = [
-		'cors'          => true,
-		'ie'            => true,
-		'mime'          => true,
-		'charset'       => true,
-		'deflate'       => true,
-		'expires'       => true,
-		'serviceworker' => '',
-
-		'ssl'        => true,
-		'www'        => true,
-		'search'     => true,
-		'feedburner' => '',
-
-		'xframe'        => false,
-		'csp'           => '',
-		'fileaccess'    => true,
-		'hsts'          => [
-			'enable'     => false,
-			'subdomains' => false,
-			'preload'    => false,
-		],
-		'xcontenttype'  => true,
-		'xssprotection' => false,
-		'information'   => true,
-	];
-
-	/**
-	 * @var array
-	 */
 	private static $configClasses = [
-		'cors'          => CORS::class,
-		'ie'            => IE::class,
-		'mime'          => MIME::class,
-		'charset'       => Charset::class,
-		'deflate'       => Deflate::class,
-		'expires'       => Expires::class,
-		'root'          => Root::class,
-		'serviceworker' => ServiceWorker::class,
+		CrossOrigin::class,
+		InternetExplorer::class,
+		MediaTypes::class,
+		CharacterEncodings::class,
 
-		'ssl'        => SSL::class,
-		'www'        => WWW::class,
-		'search'     => Search::class,
-		'feedburner' => FeedBurner::class,
+		RewriteEngine::class,
+		RewriteHttps::class,
+		RewriteSubdomain::class,
+		RewriteSearch::class,
+		RewriteFeedBurner::class,
 
-		'xframe'        => XFrame::class,
-		'csp'           => CSP::class,
-		'fileaccess'    => FileAccess::class,
-		'hsts'          => HSTS::class,
-		'xcontenttype'  => XContentType::class,
-		'xssprotection' => XSSProtection::class,
-		'information'   => Information::class,
+		XFrame::class,
+		ContentSecurityPolice::class,
+		FileAccess::class,
+		StrictTransportSecurity::class,
+		XContentType::class,
+		XssProtection::class,
+		ReferrerPolicy::class,
+		SoftwareInformation::class,
 
-		'base' => Base::class,
-	];
-
-	private static $filesMatchPattern = [
-		'appcache',
-		'atom',
-		'bbaw',
-		'bmp',
-		'br',
-		'crx',
-		'css',
-		'cur',
-		'eot',
-		'f4[abpv]',
-		'flv',
-		'geojson',
-		'gif',
-		'gz',
-		'htc',
-		'ic[os]',
-		'jpe?g',
-		'm?js',
-		'json(ld)?',
-		'm4[av]',
-		'manifest',
-		'map',
-		'markdown',
-		'md',
-		'mp4',
-		'oex',
-		'og[agv]',
-		'opus',
-		'otf',
-		'pdf',
-		'png',
-		'rdf',
-		'rss',
-		'safariextz',
-		'svgz?',
-		'swf',
-		'topojson',
-		'tt[cf]',
-		'txt',
-		'vcard',
-		'vcf',
-		'vtt',
-		'wasm',
-		'webapp',
-		'web[mp]',
-		'webmanifest',
-		'woff2?',
-		'xloc',
-		'xml',
-		'xpi',
+		Compression::class,
+		ContentTransformation::class,
+		ETags::class,
+		CacheExpiration::class,
+		CacheBusting::class,
+		ServiceWorker::class,
 	];
 
 	/**
@@ -165,23 +89,33 @@ class Apache
 	 */
 	public function getOptions(): array
 	{
-		return self::$configOptions;
+		return array_reduce(self::$configClasses, function (array $options, string $class) {
+			if (($value = $class::initial()) !== null) {
+				$options[$class::id()] = $value;
+			}
+
+			return $options;
+		}, []);
 	}
 
 	/**
 	 * Generate Apache rules based on current configuration.
 	 *
+	 * @param string $directives
+	 *
 	 * @return string
 	 */
-	public function getDirectives(): string
+	public function getDirectives(string $directives): string
 	{
-		return array_reduce(self::$configClasses, function ($directives, $class) {
-			$instance = new $class($this->plugin);
+		$wordpress = new WordPress($this->plugin, $directives);
 
-			$directives .= $instance();
+		return array_reduce(self::$configClasses, function (string $directives, string $class) {
+				$instance = new $class($this->plugin);
 
-			return $directives;
-		});
+				$directives .= $instance();
+
+				return $directives;
+			}, '') . $wordpress();
 	}
 
 	/**
@@ -190,16 +124,6 @@ class Apache
 	public function saveDirectives(): void
 	{
 		save_mod_rewrite_rules();
-	}
-
-	/**
-	 * Generate a regular expression for use in several directives.
-	 *
-	 * @return string
-	 */
-	public function getFilesMatchPattern(): string
-	{
-		return '\.(' . implode('|', self::$filesMatchPattern) . ')$';
 	}
 
 }

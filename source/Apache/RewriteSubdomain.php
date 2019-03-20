@@ -3,14 +3,33 @@
 namespace ic\Plugin\RewriteControl\Apache;
 
 /**
- * Class WWW
+ * Class RewriteSubdomain
  *
  * @package ic\Plugin\RewriteControl\Apache
  */
-class WWW extends ApacheConfig
+class RewriteSubdomain extends ApacheConfig
 {
 
-	protected function add(): string
+	/**
+	 * @inheritdoc
+	 */
+	public static function initial()
+	{
+		return true;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getDirectives(): string
+	{
+		return $this->plugin->hasSubdomain() ? $this->getAddSubdomainDirective() : $this->getRemoveSubdomainDirective();
+	}
+
+	/**
+	 * @return string
+	 */
+	private function getAddSubdomainDirective(): string
 	{
 		return <<<EOT
 
@@ -30,7 +49,10 @@ EOT;
 
 	}
 
-	protected function remove(): string
+	/**
+	 * @return string
+	 */
+	private function getRemoveSubdomainDirective(): string
 	{
 		return <<<EOT
 
@@ -46,14 +68,6 @@ EOT;
 
 EOT;
 
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getDirectives(): string
-	{
-		return $this->getPlugin()->hasSubdomain() ? $this->add() : $this->remove();
 	}
 
 }

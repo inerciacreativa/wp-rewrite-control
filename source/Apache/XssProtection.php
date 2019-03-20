@@ -7,8 +7,18 @@ namespace ic\Plugin\RewriteControl\Apache;
  *
  * @package ic\Plugin\RewriteControl\Apache
  */
-class XSSProtection extends ApacheConfig
+class XssProtection extends ApacheConfig
 {
+
+	use ApacheFilesMatchPattern;
+
+	/**
+	 * @inheritdoc
+	 */
+	public static function initial()
+	{
+		return true;
+	}
 
 	/**
 	 * @inheritdoc
@@ -20,14 +30,14 @@ class XSSProtection extends ApacheConfig
 		return <<<EOT
 
 # ----------------------------------------------------------------------
-# Clickjacking
+# Reflected Cross-Site Scripting (XSS) attacks
 # ----------------------------------------------------------------------
 <IfModule mod_headers.c>
-	Header set X-XSS-Protection "1; mode=block"
+    Header set X-XSS-Protection "1; mode=block"
 
-	<FilesMatch "$pattern">
-		Header unset X-XSS-Protection
-	</FilesMatch>
+    <FilesMatch "$pattern">
+        Header unset X-XSS-Protection
+    </FilesMatch>
 </IfModule>
 
 EOT;

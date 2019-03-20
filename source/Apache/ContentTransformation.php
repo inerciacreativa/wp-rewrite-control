@@ -3,28 +3,12 @@
 namespace ic\Plugin\RewriteControl\Apache;
 
 /**
- * Class XContentType
+ * Class ContentTransformation
  *
  * @package ic\Plugin\RewriteControl\Apache
  */
-class XContentType extends ApacheConfig
+class ContentTransformation extends ApacheConfig
 {
-
-	/**
-	 * @inheritdoc
-	 */
-	public static function initial()
-	{
-		return true;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function isEnabled(): bool
-	{
-		return true;
-	}
 
 	/**
 	 * @inheritdoc
@@ -34,13 +18,14 @@ class XContentType extends ApacheConfig
 		return <<<EOT
 
 # ----------------------------------------------------------------------
-# Reduce MIME type security risks
+# Content transformation
 # ----------------------------------------------------------------------
 <IfModule mod_headers.c>
-    Header set X-Content-Type-Options "nosniff"
+    Header merge Cache-Control "no-transform"
 </IfModule>
 
 EOT;
+
 	}
 
 }

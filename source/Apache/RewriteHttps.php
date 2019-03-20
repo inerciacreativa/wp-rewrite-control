@@ -3,43 +3,43 @@
 namespace ic\Plugin\RewriteControl\Apache;
 
 /**
- * Class Root
+ * Class RewriteHttps
  *
  * @package ic\Plugin\RewriteControl\Apache
  */
-class Root extends ApacheConfig
+class RewriteHttps extends ApacheConfig
 {
+
+	/**
+	 * @inheritdoc
+	 */
+	public static function initial()
+	{
+		return true;
+	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function isEnabled(): bool
 	{
-		return true;
+		return parent::isEnabled() && $this->plugin->hasHttps();
 	}
 
 	/**
-	 * @return string
+	 * @inheritdoc
 	 */
 	public function getDirectives(): string
 	{
-		$root = $this->getPlugin()->getRoot();
-
 		return <<<EOT
 
 # ----------------------------------------------------------------------
-# Rewrite
+# Force HTTPS
 # ----------------------------------------------------------------------
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase {$root}
-
-    Options +FollowSymlinks
-
-    RewriteCond %{HTTPS} =on
-    RewriteRule ^ - [ENV=PROTO:https]
     RewriteCond %{HTTPS} !=on
-    RewriteRule ^ - [ENV=PROTO:http]
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 </IfModule>
 
 EOT;

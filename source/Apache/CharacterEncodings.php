@@ -3,12 +3,20 @@
 namespace ic\Plugin\RewriteControl\Apache;
 
 /**
- * Class Charset
+ * Class CharacterEncodings
  *
  * @package ic\Plugin\RewriteControl\Apache
  */
-class Charset extends ApacheConfig
+class CharacterEncodings extends ApacheConfig
 {
+
+	/**
+	 * @inheritdoc
+	 */
+	public static function initial()
+	{
+		return true;
+	}
 
 	/**
 	 * @inheritdoc
@@ -23,22 +31,24 @@ class Charset extends ApacheConfig
 AddDefaultCharset utf-8
 
 <IfModule mod_mime.c>
-    AddCharset utf-8 .atom \
+    AddCharset utf-8 .appcache \
                      .bbaw \
                      .css \
-                     .geojson \
+                     .htc \
+                     .ics \
                      .js \
                      .json \
-                     .jsonld \
                      .manifest \
-                     .rdf \
-                     .rss \
+                     .map \
+                     .markdown \
+                     .md \
+                     .mjs \
                      .topojson \
                      .vtt \
-                     .webapp \
+                     .vcard \
+                     .vcf \
                      .webmanifest \
-                     .xloc \
-                     .xml
+                     .xloc
 </IfModule>
 
 EOT;

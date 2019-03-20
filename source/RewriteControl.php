@@ -49,10 +49,7 @@ class RewriteControl extends Plugin
 		$this->apache    = new Apache($this);
 		$this->wordpress = new WordPress($this);
 
-		$this->setOptions([
-			'apache'    => $this->apache->getOptions(),
-			'wordpress' => $this->wordpress->getOptions(),
-		]);
+		$this->setOptions(array_merge($this->apache->getOptions(), $this->wordpress->getOptions()));
 
 		$home = parse_url(home_url());
 

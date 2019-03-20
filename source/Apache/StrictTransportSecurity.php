@@ -3,19 +3,31 @@
 namespace ic\Plugin\RewriteControl\Apache;
 
 /**
- * Class HSTS
+ * Class StrictTransportSecurity
  *
  * @package ic\Plugin\RewriteControl\Apache
  */
-class HSTS extends ApacheConfig
+class StrictTransportSecurity extends ApacheConfig
 {
+
+	/**
+	 * @inheritdoc
+	 */
+	public static function initial()
+	{
+		return [
+			'enable'     => false,
+			'subdomains' => false,
+			'preload'    => false,
+		];
+	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function isEnabled(): bool
 	{
-		return (bool) $this->getConfig()['enable'] && $this->getPlugin()->hasHttps();
+		return $this->getConfig('enable') && $this->plugin->hasHttps();
 	}
 
 	/**
@@ -23,8 +35,8 @@ class HSTS extends ApacheConfig
 	 */
 	public function getDirectives(): string
 	{
-		$subdomains = $this->getConfig()['subdomains'] ? '; includeSubDomains' : '';
-		$preload    = $this->getConfig()['preload'] ? '; preload' : '';
+		$subdomains = $this->getConfig('subdomains') ? '; includeSubDomains' : '';
+		$preload    = $this->getConfig('preload') ? '; preload' : '';
 		$maxage     = empty($preload) ? '16070400' : '31536000';
 
 		return <<<EOT
@@ -33,7 +45,7 @@ class HSTS extends ApacheConfig
 # HTTP Strict Transport Security (HSTS)
 # ----------------------------------------------------------------------
 <IfModule mod_headers.c>
-     Header set Strict-Transport-Security "max-age=$maxage$subdomains$preload" "expr=%{HTTPS} == 'on'"
+    Header set Strict-Transport-Security "max-age=$maxage$subdomains$preload" "expr=%{HTTPS} == 'on'"
  </IfModule>
 
 EOT;

@@ -3,27 +3,39 @@
 namespace ic\Plugin\RewriteControl\Apache;
 
 /**
- * Class IE
+ * Class InternetExplorer
  *
  * @package ic\Plugin\RewriteControl\Apache
  */
-class IE extends ApacheConfig
+class InternetExplorer extends ApacheConfig
 {
+
+	use ApacheFilesMatchPattern;
+
+	/**
+	 * @inheritdoc
+	 */
+	public static function initial()
+	{
+		return true;
+	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function getDirectives(): string
 	{
+		$pattern = $this->getFilesMatchPattern();
+
 		return <<<EOT
 
 # ----------------------------------------------------------------------
-# Force the latest IE version
+# Force Internet Explorer 8/9/10 to render pages in the highest mode
 # ----------------------------------------------------------------------
 <IfModule mod_headers.c>
     Header set X-UA-Compatible "IE=Edge"
 
-    <FilesMatch "\.(appcache|atom|bbaw|bmp|crx|css|cur|eot|f4[abpv]|flv|geojson|gif|htc|ico|jpe?g|js|json(ld)?|m4[av]|manifest|map|mp4|oex|og[agv]|opus|otf|pdf|png|rdf|rss|safariextz|svgz?|swf|topojson|tt[cf]|txt|vcard|vcf|vtt|webapp|web[mp]|webmanifest|woff2?|xloc|xml|xpi)$">
+    <FilesMatch "$pattern">
         Header unset X-UA-Compatible
     </FilesMatch>
 </IfModule>

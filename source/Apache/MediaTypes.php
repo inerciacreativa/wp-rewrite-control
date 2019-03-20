@@ -3,12 +3,20 @@
 namespace ic\Plugin\RewriteControl\Apache;
 
 /**
- * Class MIME
+ * Class MediaTypes
  *
  * @package ic\Plugin\RewriteControl\Apache
  */
-class MIME extends ApacheConfig
+class MediaTypes extends ApacheConfig
 {
+
+	/**
+	 * @inheritdoc
+	 */
+	public static function initial()
+	{
+		return true;
+	}
 
 	/**
 	 * @inheritdoc
@@ -26,11 +34,12 @@ class MIME extends ApacheConfig
     AddType application/json                            json map topojson
     AddType application/ld+json                         jsonld
     AddType application/rss+xml                         rss
-    AddType application/vnd.geo+json                    geojson
-    AddType application/xml                             rdf xml
+    AddType application/geo+json                        geojson
+    AddType application/rdf+xml                         rdf
+    AddType application/xml                             xml
 
   # JavaScript
-    AddType application/javascript                      js
+    AddType text/javascript                             js
 
   # Manifest files
     AddType application/manifest+json                   webmanifest
@@ -49,12 +58,16 @@ class MIME extends ApacheConfig
     AddType video/x-flv                                 flv
     AddType image/x-icon                                cur ico
 
+  # WebAssembly
+    AddType application/wasm                            wasm
+
   # Web fonts
-    AddType application/font-woff                       woff
-    AddType application/font-woff2                      woff2
+    AddType font/woff                                   woff
+    AddType font/woff2                                  woff2
     AddType application/vnd.ms-fontobject               eot
-    AddType application/x-font-ttf                      ttc ttf
-    AddType font/opentype                               otf
+    AddType font/ttf                                    ttf
+    AddType font/collection                             ttc
+    AddType font/otf                                    otf
 
   # Other
     AddType application/octet-stream                    safariextz
@@ -62,6 +75,8 @@ class MIME extends ApacheConfig
     AddType application/x-chrome-extension              crx
     AddType application/x-opera-extension               oex
     AddType application/x-xpinstall                     xpi
+    AddType text/calendar                               ics
+    AddType text/markdown                               markdown md
     AddType text/vcard                                  vcard vcf
     AddType text/vnd.rim.location.xloc                  xloc
     AddType text/vtt                                    vtt

@@ -2,21 +2,8 @@
 
 namespace ic\Plugin\RewriteControl\Apache;
 
-/**
- * Class XContentType
- *
- * @package ic\Plugin\RewriteControl\Apache
- */
-class XContentType extends ApacheConfig
+class CacheBusting extends ApacheConfig
 {
-
-	/**
-	 * @inheritdoc
-	 */
-	public static function initial()
-	{
-		return true;
-	}
 
 	/**
 	 * @inheritdoc
@@ -27,20 +14,24 @@ class XContentType extends ApacheConfig
 	}
 
 	/**
-	 * @inheritdoc
+	 * @return string
 	 */
 	public function getDirectives(): string
 	{
 		return <<<EOT
 
 # ----------------------------------------------------------------------
-# Reduce MIME type security risks
+# Filename-based cache busting
 # ----------------------------------------------------------------------
-<IfModule mod_headers.c>
-    Header set X-Content-Type-Options "nosniff"
+# Route all requests such as `/style.12345.css` to `/style.css` (if the file does not exists).
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.+)\.(\w+)\.(bmp|css|cur|gif|ico|jpe?g|m?js|png|svgz?|webp|webmanifest)$ $1.$3 [L]
 </IfModule>
 
 EOT;
+
 	}
 
 }

@@ -10,15 +10,17 @@ namespace ic\Plugin\RewriteControl;
 class WordPress
 {
 
+	protected const PREFIX = 'wordpress';
+
 	/**
 	 * @var RewriteControl
 	 */
-	private $plugin;
+	protected $plugin;
 
 	/**
 	 * @var array
 	 */
-	private static $baseOptions = [
+	protected static $baseOptions = [
 		'author'              => 'author',
 		'search'              => 'search',
 		'comments'            => 'comments',
@@ -58,11 +60,13 @@ class WordPress
 	public function getOptions(): array
 	{
 		return [
-			'base'    => self::$baseOptions,
-			'archive' => [
-				'category' => false,
-				'tag'      => false,
-				'author'   => false,
+			self::PREFIX => [
+				'base'    => self::$baseOptions,
+				'archive' => [
+					'category' => false,
+					'tag'      => false,
+					'author'   => false,
+				],
 			],
 		];
 	}
@@ -119,7 +123,7 @@ class WordPress
 	 */
 	protected function getBaseOption(string $option): string
 	{
-		$value = $this->plugin->getOption("wordpress.base.$option");
+		$value = $this->plugin->getOption(self::PREFIX . ".base.$option");
 
 		return empty($value) ? $this->getDefaultOption($option) : $value;
 	}
@@ -131,7 +135,7 @@ class WordPress
 	 */
 	protected function getArchiveOption(string $option): bool
 	{
-		return (bool) $this->plugin->getOption("wordpress.archive.$option");
+		return (bool) $this->plugin->getOption(self::PREFIX . ".archive.$option");
 	}
 
 	/**
