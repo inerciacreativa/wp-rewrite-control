@@ -29,7 +29,7 @@ class Frontend extends PluginClass
 	 */
 	protected function fixSearchQuery(\WP_Query $query): \WP_Query
 	{
-		if ($query->is_search() && $this->getOption('apache.search')) {
+		if ($query->is_search() && $this->getOption('apache.rewrite_search')) {
 			$query->query_vars['s'] = urldecode($query->query_vars['s']);
 		}
 
