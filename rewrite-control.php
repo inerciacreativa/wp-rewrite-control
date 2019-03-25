@@ -2,7 +2,7 @@
 /**
  * Plugin Name: ic Rewrite Control
  * Plugin URI:  https://github.com/inerciacreativa/wp-rewrite-control
- * Version:     3.0.0
+ * Version:     3.0.1
  * Text Domain: ic-rewrite-control
  * Domain Path: /languages
  * Description: Gestor de .htaccess y opciones de WP_Rewrite.
