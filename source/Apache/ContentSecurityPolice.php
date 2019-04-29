@@ -83,7 +83,7 @@ class ContentSecurityPolice extends ApacheConfig
 	 */
 	public static function initial(): array
 	{
-		$services = array_reduce(self::$services, function (array $services, string $service) {
+		$services = array_reduce(self::$services, static function (array $services, string $service) {
 			/** @var Service $service */
 			$services[$service::id()] = false;
 
@@ -193,7 +193,7 @@ EOT;
 		$directives = array_merge($this->getSpecialDirectives(), $this->getDocumentDirectives(), $this->getFetchDirectives(), $this->getNavigationDirectives());
 		$fallback   = $this->getFallbackSources($directives);
 
-		return Arr::reduce($directives, function (string $result, $values, $directive) use ($fallback) {
+		return Arr::reduce($directives, static function (string $result, $values, $directive) use ($fallback) {
 			if (empty($values)) {
 				return $result;
 			}

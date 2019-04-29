@@ -2,6 +2,7 @@
 
 namespace ic\Plugin\RewriteControl;
 
+use ic\Plugin\RewriteControl\Apache\ApacheConfig;
 use ic\Plugin\RewriteControl\Apache\CacheBusting;
 use ic\Plugin\RewriteControl\Apache\CacheExpiration;
 use ic\Plugin\RewriteControl\Apache\CharacterEncodings;
@@ -89,7 +90,8 @@ class Apache
 	 */
 	public function getOptions(): array
 	{
-		return array_reduce(self::$configClasses, function (array $options, string $class) {
+		return array_reduce(self::$configClasses, static function (array $options, string $class) {
+			/** @var ApacheConfig $class */
 			if (($value = $class::initial()) !== null) {
 				$options[$class::id()] = $value;
 			}
@@ -108,9 +110,10 @@ class Apache
 	public function getDirectives(string $directives): string
 	{
 		$wordpress = new WordPress($this->plugin, $directives);
+		$plugin    = &$this->plugin;
 
-		return array_reduce(self::$configClasses, function (string $directives, string $class) {
-				$instance = new $class($this->plugin);
+		return array_reduce(self::$configClasses, static function (string $directives, string $class) use ($plugin) {
+				$instance = new $class($plugin);
 
 				$directives .= $instance();
 

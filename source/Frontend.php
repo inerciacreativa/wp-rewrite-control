@@ -3,6 +3,7 @@
 namespace ic\Plugin\RewriteControl;
 
 use ic\Framework\Plugin\PluginClass;
+use WP_Query;
 
 /**
  * Class Frontend
@@ -23,11 +24,11 @@ class Frontend extends PluginClass
 	}
 
 	/**
-	 * @param \WP_Query $query
+	 * @param WP_Query $query
 	 *
-	 * @return \WP_Query
+	 * @return WP_Query
 	 */
-	protected function fixSearchQuery(\WP_Query $query): \WP_Query
+	protected function fixSearchQuery(WP_Query $query): WP_Query
 	{
 		if ($query->is_search() && $this->getOption('apache.rewrite_search')) {
 			$query->query_vars['s'] = urldecode($query->query_vars['s']);
