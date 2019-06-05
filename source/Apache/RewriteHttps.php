@@ -13,14 +13,6 @@ class RewriteHttps extends ApacheConfig
 	/**
 	 * @inheritdoc
 	 */
-	public static function initial()
-	{
-		return true;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
 	public function isEnabled(): bool
 	{
 		return parent::isEnabled() && $this->plugin->hasHttps();
