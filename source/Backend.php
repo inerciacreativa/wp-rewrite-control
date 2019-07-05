@@ -17,6 +17,7 @@ use ic\Plugin\RewriteControl\Apache\ETags;
 use ic\Plugin\RewriteControl\Apache\FileAccess;
 use ic\Plugin\RewriteControl\Apache\InternetExplorer;
 use ic\Plugin\RewriteControl\Apache\MediaTypes;
+use ic\Plugin\RewriteControl\Apache\Redirection;
 use ic\Plugin\RewriteControl\Apache\ReferrerPolicy;
 use ic\Plugin\RewriteControl\Apache\RewriteFeedBurner;
 use ic\Plugin\RewriteControl\Apache\RewriteHttps;
@@ -159,6 +160,20 @@ class Backend extends PluginClass
 				        ])
 				        ->checkbox(InternetExplorer::id(), __('Document modes', $this->id()), [
 					        'label' => __('Force Internet Explorer 8/9/10 to render pages in the highest document mode available.', $this->id()),
+				        ]);
+			});
+
+			$tab->section('redirection', function (Section $section) {
+				$section->title(__('Redirections', $this->id()))
+				        ->textarea(Redirection::id('redirect'), 'Redirect', [
+					        'class'       => 'large-text code',
+					        'rows'        => 5,
+					        'description' => __('The <a href="https://httpd.apache.org/docs/2.4/mod/mod_alias.html#redirect"><code>Redirect</code></a> directive maps an old URL into a new one.<br>The syntax is <code>[status] path|URL URL</code> (one per line). The default status is a <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/301"><code>HTTP 301</code></a> permanent redirection.', $this->id()),
+				        ])
+				        ->textarea(Redirection::id('redirect-match'), 'RedirectMatch', [
+					        'class'       => 'large-text code',
+					        'rows'        => 5,
+					        'description' => __('The <a href="https://httpd.apache.org/docs/2.4/mod/mod_alias.html#redirectmatch"><code>RedirectMatch</code></a> directive maps an old URL into a new one, but makes use of regular expressions.<br>The syntax is <code>[status] regex URL</code> (one per line). The default status is a <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/301"><code>HTTP 301</code></a> permanent redirection.', $this->id()),
 				        ]);
 			});
 

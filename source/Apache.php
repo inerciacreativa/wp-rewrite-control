@@ -14,6 +14,7 @@ use ic\Plugin\RewriteControl\Apache\ETags;
 use ic\Plugin\RewriteControl\Apache\FileAccess;
 use ic\Plugin\RewriteControl\Apache\InternetExplorer;
 use ic\Plugin\RewriteControl\Apache\MediaTypes;
+use ic\Plugin\RewriteControl\Apache\Redirection;
 use ic\Plugin\RewriteControl\Apache\ReferrerPolicy;
 use ic\Plugin\RewriteControl\Apache\RewriteEngine;
 use ic\Plugin\RewriteControl\Apache\RewriteFeedBurner;
@@ -55,6 +56,7 @@ class Apache
 		RewriteSubdomain::class,
 		RewriteSearch::class,
 		RewriteFeedBurner::class,
+		Redirection::class,
 
 		XFrame::class,
 		ContentSecurityPolice::class,
