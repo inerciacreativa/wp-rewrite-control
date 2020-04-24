@@ -296,7 +296,7 @@ EOT;
 	{
 		$directives = $this->getConfig($type);
 
-		return Arr::map($directives, function (string $directive, $sources) {
+		return Arr::map($directives, function (string $sources) {
 			return $this->parseSources($sources);
 		});
 	}
