@@ -13,7 +13,7 @@ class StrictTransportSecurity extends ApacheConfig
 	/**
 	 * @inheritdoc
 	 */
-	public static function initial()
+	public static function initial(): array
 	{
 		return [
 			'enable'     => false,

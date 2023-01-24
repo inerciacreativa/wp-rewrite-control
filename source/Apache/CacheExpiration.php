@@ -13,7 +13,7 @@ class CacheExpiration extends ApacheConfig
 	/**
 	 * @inheritdoc
 	 */
-	public static function initial()
+	public static function initial(): bool
 	{
 		return true;
 	}

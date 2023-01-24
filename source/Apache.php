@@ -40,12 +40,12 @@ class Apache
 	/**
 	 * @var RewriteControl
 	 */
-	private $plugin;
+	private RewriteControl $plugin;
 
 	/**
 	 * @var array
 	 */
-	private static $configClasses = [
+	private static array $configClasses = [
 		CrossOrigin::class,
 		InternetExplorer::class,
 		MediaTypes::class,
@@ -55,7 +55,6 @@ class Apache
 		RewriteHttps::class,
 		RewriteSubdomain::class,
 		RewriteSearch::class,
-		RewriteFeedBurner::class,
 		Redirection::class,
 
 		XFrame::class,

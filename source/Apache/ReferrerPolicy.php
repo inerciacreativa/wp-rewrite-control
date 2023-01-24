@@ -15,7 +15,7 @@ class ReferrerPolicy extends ApacheConfig
 	/**
 	 * @inheritdoc
 	 */
-	public static function initial()
+	public static function initial(): string
 	{
 		return 'no-referrer-when-downgrade';
 	}

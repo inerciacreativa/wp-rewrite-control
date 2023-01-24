@@ -103,11 +103,6 @@ class Backend extends PluginClass
 					'label'       => __('Rewrite search queries <code>/?s=query</code> to permalinks <code>/search/query</code>.', $this->id()),
 					'description' => __('The search slug can be changed in the WordPress options of the plugin.', $this->id()),
 				]);
-
-				$section->text(RewriteFeedBurner::id(), __('FeedBurner', $this->id()), [
-					'class'       => 'regular-text code',
-					'description' => __('Rewrite feed queries to FeedBurner with a <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/307"><code>HTTP 307</code></a> temporary redirection.<br>Type only the slug of the URL.', $this->id()),
-				]);
 			});
 
 			$tab->section('performance', function (Section $section) {
@@ -260,7 +255,8 @@ class Backend extends PluginClass
 
 		$settings->tab('csp', __('CSP', $this->id()), function (Tab $tab) {
 			$tab->section('general', function (Section $section) {
-				$section->checkbox(ContentSecurityPolice::id('enable'), 'Enable', [
+				$section->title(__('General', $this->id()))
+					->checkbox(ContentSecurityPolice::id('enable'), 'Enable', [
 					'label' => __('You can enable or completely disable <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP">Content Security Police</a>.', $this->id()),
 				]);
 			});

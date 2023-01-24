@@ -15,12 +15,12 @@ class WordPress
 	/**
 	 * @var RewriteControl
 	 */
-	protected $plugin;
+	protected RewriteControl $plugin;
 
 	/**
 	 * @var array
 	 */
-	protected static $baseOptions = [
+	protected static array $baseOptions = [
 		'author'              => 'author',
 		'search'              => 'search',
 		'comments'            => 'comments',

@@ -24,7 +24,7 @@ use ic\Plugin\RewriteControl\Apache\ContentSecurityPolice\YouTube;
 class ContentSecurityPolice extends ApacheConfig
 {
 
-	protected static $services = [
+	protected static array $services = [
 		Typekit::class,
 		GoogleFonts::class,
 		Gravatar::class,
@@ -36,13 +36,13 @@ class ContentSecurityPolice extends ApacheConfig
 		Disqus::class,
 	];
 
-	protected static $fallback = [
+	protected static array $fallback = [
 		false     => 'None',
 		'self'    => "'self'",
 		'default' => 'default-src',
 	];
 
-	protected static $keywords = [
+	protected static array $keywords = [
 		'none',
 		'self',
 		'unsafe-inline',
@@ -53,14 +53,14 @@ class ContentSecurityPolice extends ApacheConfig
 		'report-sample',
 	];
 
-	protected static $digest = [
+	protected static array $digest = [
 		'nonce-',
 		'sha256-',
 		'sha384-',
 		'sha512-',
 	];
 
-	protected static $sandbox = [
+	protected static array $sandbox = [
 		'allow-forms',
 		'allow-modals',
 		'allow-orientation-lock',
@@ -73,7 +73,7 @@ class ContentSecurityPolice extends ApacheConfig
 		'allow-top-navigation',
 	];
 
-	protected static $sri = [
+	protected static array $sri = [
 		'script',
 		'style',
 	];
@@ -304,12 +304,12 @@ EOT;
 	/**
 	 * Parses the sources and convert to an array if necessary.
 	 *
-	 * @param string|array $sources
+	 * @param array|string $sources
 	 * @param bool         $quote
 	 *
 	 * @return array
 	 */
-	protected function parseSources($sources, bool $quote = true): array
+	protected function parseSources(array|string $sources, bool $quote = true): array
 	{
 		if (is_string($sources)) {
 			$sources = trim($sources);

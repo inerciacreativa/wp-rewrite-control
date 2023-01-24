@@ -17,27 +17,27 @@ class RewriteControl extends Plugin
 	/**
 	 * @var Apache
 	 */
-	protected $apache;
+	protected Apache $apache;
 
 	/**
 	 * @var WordPress
 	 */
-	protected $wordpress;
+	protected WordPress $wordpress;
 
 	/**
 	 * @var string
 	 */
-	protected $root;
+	protected string $root;
 
 	/**
 	 * @var bool
 	 */
-	protected $ssl;
+	protected bool $ssl;
 
 	/**
 	 * @var bool
 	 */
-	protected $www;
+	protected bool $www;
 
 	/**
 	 * @inheritdoc
@@ -54,7 +54,7 @@ class RewriteControl extends Plugin
 		$home = parse_url(home_url());
 
 		$this->ssl  = $home['scheme'] === 'https';
-		$this->www  = strpos($home['host'], 'www.') === 0;
+		$this->www  = str_starts_with($home['host'], 'www.');
 		$this->root = isset($home['path']) ? trailingslashit($home['path']) : '/';
 	}
 

@@ -15,7 +15,7 @@ class XFrame extends ApacheConfig
 	/**
 	 * @inheritdoc
 	 */
-	public static function initial()
+	public static function initial(): string
 	{
 		return 'SAMEORIGIN';
 	}

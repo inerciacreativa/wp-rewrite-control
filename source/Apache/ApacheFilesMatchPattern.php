@@ -8,7 +8,7 @@ trait ApacheFilesMatchPattern
 	/**
 	 * @var array
 	 */
-	private static $filesMatchPattern = [
+	private static array $filesMatchPattern = [
 		'appcache',
 		'atom',
 		'bbaw',

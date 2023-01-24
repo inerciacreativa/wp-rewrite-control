@@ -13,7 +13,7 @@ class CrossOrigin extends ApacheConfig
 	/**
 	 * @inheritdoc
 	 */
-	public static function initial()
+	public static function initial(): array
 	{
 		return [
 			'images' => true,

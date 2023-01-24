@@ -18,7 +18,7 @@ abstract class ApacheConfig
 	/**
 	 * @var RewriteControl
 	 */
-	protected $plugin;
+	protected RewriteControl $plugin;
 
 	/**
 	 * ApacheConfig constructor.
@@ -31,7 +31,7 @@ abstract class ApacheConfig
 	}
 
 	/**
-	 * @param string $option
+	 * @param string|null $option
 	 *
 	 * @return string
 	 */
@@ -49,17 +49,17 @@ abstract class ApacheConfig
 	/**
 	 * @return mixed
 	 */
-	public static function initial()
+	public static function initial(): mixed
 	{
 		return false;
 	}
 
 	/**
-	 * @param string $option
+	 * @param string|null $option
 	 *
 	 * @return mixed
 	 */
-	public function getConfig(string $option = null)
+	public function getConfig(string $option = null): mixed
 	{
 		return $this->plugin->getOption(static::id($option));
 	}

@@ -15,7 +15,7 @@ class WordPress extends ApacheConfig
 	/**
 	 * @var string
 	 */
-	protected $directives;
+	protected string $directives;
 
 	/**
 	 * @inheritdoc
